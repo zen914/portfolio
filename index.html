@@ -204,34 +204,34 @@
       <p class="section-sub reveal">Practice projects built to demonstrate real-world business spreadsheet skills.</p>
       <div class="portfolio-horizontal-container">
         <div class="portfolio-horizontal-track stagger-parent">
-          <div class="project-card stagger-child" style="background-image: url('assets/images/projects/sales-dashboard.png')">
+          <div class="project-card stagger-child" data-project="project_1" data-description="Built an Excel dashboard that summarizes sales performance using Pivot Tables, charts, and conditional formatting, making it easier to monitor trends and identify top-performing products.">
+            <img class="project-cover" src="assets/images/projects/project_1/cover.png" alt="Sales Performance Dashboard cover">
             <div class="project-overlay"></div>
             <div class="project-body">
               <p class="project-tag">Excel Dashboard</p>
               <h3 class="project-title">Sales Performance Dashboard</h3>
-              <p class="project-desc">Built an Excel dashboard that summarizes sales performance using Pivot Tables, charts, and conditional formatting, making it easier to monitor trends and identify top-performing products.</p>
               <div class="project-skills"><span>Excel</span><span>Pivot Tables</span><span>Charts</span><span>Conditional Formatting</span></div>
-              <a href="#" class="project-link">View Project →</a>
+              <button type="button" class="project-link">View Project →</button>
             </div>
           </div>
-          <div class="project-card stagger-child" style="background-image: url('assets/images/projects/inventory-dashboard.png')">
+          <div class="project-card stagger-child" data-project="project_2" data-description="Created an inventory tracking system with automated low-stock alerts and product summaries to improve inventory visibility and organization.">
+            <img class="project-cover" src="assets/images/projects/project_2/cover.png" alt="Inventory Tracking Sheet cover">
             <div class="project-overlay"></div>
             <div class="project-body">
               <p class="project-tag">Google Sheets</p>
               <h3 class="project-title">Inventory Tracking Sheet</h3>
-              <p class="project-desc">Created an inventory tracking system with automated low-stock alerts and product summaries to improve inventory visibility and organization.</p>
               <div class="project-skills"><span>Google Sheets</span><span>XLOOKUP</span><span>Conditional Formatting</span><span>Data Organization</span></div>
-              <a href="#" class="project-link">View Project →</a>
+              <button type="button" class="project-link">View Project →</button>
             </div>
           </div>
-          <div class="project-card stagger-child" style="background-image: url('assets/images/projects/customer-report.png')">
+          <div class="project-card stagger-child" data-project="project_3" data-description="Developed a customer sales report that transforms raw transaction data into organized summaries and visual reports for easier business review.">
+            <img class="project-cover" src="assets/images/projects/project_3/cover.png" alt="Customer Sales Report cover">
             <div class="project-overlay"></div>
             <div class="project-body">
               <p class="project-tag">Reporting</p>
               <h3 class="project-title">Customer Sales Report</h3>
-              <p class="project-desc">Developed a customer sales report that transforms raw transaction data into organized summaries and visual reports for easier business review.</p>
               <div class="project-skills"><span>Excel</span><span>Data Cleaning</span><span>Reporting</span><span>Charts</span></div>
-              <a href="#" class="project-link">View Project →</a>
+              <button type="button" class="project-link">View Project →</button>
             </div>
           </div>
         </div>
@@ -239,6 +239,27 @@
     </div>
   </div>
 </section>
+
+<div class="project-modal" id="project-modal" aria-hidden="true">
+  <div class="project-modal-backdrop" data-project-close></div>
+  <button type="button" class="project-modal-close" data-project-close aria-label="Close project"><i class="fas fa-times"></i></button>
+  <button type="button" class="project-modal-nav project-modal-prev" data-project-prev aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+  <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <div class="project-modal-media">
+      <div class="project-modal-image-stage">
+        <div class="project-image-card">
+          <img class="project-modal-img" src="" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="project-modal-info">
+      <p class="project-modal-count">1 / 1</p>
+      <h3 id="project-modal-title"></h3>
+      <p class="project-modal-desc"></p>
+    </div>
+  </div>
+  <button type="button" class="project-modal-nav project-modal-next" data-project-next aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+</div>
 
 <!-- Certifications section hidden — will be added when earned -->
 

@@ -14,7 +14,7 @@
   .services-grid,
   .why-grid { grid-template-columns: repeat(2, 1fr); }
 
-  .project-card { width: 380px; }
+  .project-card { width: auto; }
 
   .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -80,7 +80,23 @@
     transform: none !important;
     gap: 16px !important;
   }
-  .project-card { width: 280px !important; }
+  .project-card { width: auto !important; height: 300px; }
+  .project-modal {
+    padding: 16px;
+  }
+  .project-modal-panel {
+    width: calc(100vw - 96px);
+  }
+  .project-modal-nav {
+    width: 40px;
+    height: 40px;
+  }
+  .project-modal-prev { left: 12px; }
+  .project-modal-next { right: 12px; }
+  .project-modal-close {
+    top: 12px;
+    right: 12px;
+  }
 
   /* Certifications */
   .certs-grid { grid-template-columns: 1fr; }

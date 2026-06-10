@@ -73,6 +73,36 @@
       }
     };
 
+    const rootStyles = getComputedStyle(document.documentElement);
+    function readColorVar(name, fallback) {
+      const value = (rootStyles.getPropertyValue(name).trim() || fallback).trim();
+      const hex = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+      if (hex) {
+        const fullHex = hex[1].length === 3
+          ? hex[1].split('').map((char) => char + char).join('')
+          : hex[1];
+        return parseInt(fullHex, 16);
+      }
+
+      const rgb = value.match(/^rgba?\(\s*(\d+),\s*(\d+),\s*(\d+)/i);
+      if (rgb) {
+        return (Number(rgb[1]) << 16) + (Number(rgb[2]) << 8) + Number(rgb[3]);
+      }
+
+      return readColorVar('', fallback);
+    }
+
+    const COLORS = {
+      light: readColorVar('--three-light', '#ffffff'),
+      laptopBase: readColorVar('--three-laptop-base', '#2a2a2a'),
+      laptopKeyboard: readColorVar('--three-laptop-keyboard', '#1a1a1a'),
+      laptopTrackpad: readColorVar('--three-laptop-trackpad', '#333333'),
+      screen: readColorVar('--three-screen', '#111111'),
+      screenGlow: readColorVar('--three-screen-glow', '#222244'),
+      excel: readColorVar('--three-excel', '#107c41'),
+      gsheet: readColorVar('--three-gsheet', '#0f9d58')
+    };
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       45,
@@ -96,14 +126,14 @@
     container.appendChild(renderer.domElement);
 
     // Lighting
-    const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambient = new THREE.AmbientLight(COLORS.light, 0.5);
     scene.add(ambient);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.95);
+    const dirLight = new THREE.DirectionalLight(COLORS.light, 0.95);
     dirLight.position.set(-3, 4, 2);
     scene.add(dirLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 0.45, 10);
+    const pointLight = new THREE.PointLight(COLORS.light, 0.45, 10);
     pointLight.position.set(0, 1.5, 0.5);
     scene.add(pointLight);
 
@@ -156,7 +186,7 @@
 
       const baseGeo = new THREE.BoxGeometry(2.2, 0.08, 1.5);
       const baseMat = new THREE.MeshStandardMaterial({
-        color: 0x2a2a2a, metalness: 0.7, roughness: 0.3
+        color: COLORS.laptopBase, metalness: 0.7, roughness: 0.3
       });
       const base = new THREE.Mesh(baseGeo, baseMat);
       base.position.y = 0.04;
@@ -164,7 +194,7 @@
 
       const kbGeo = new THREE.BoxGeometry(1.8, 0.01, 1.0);
       const kbMat = new THREE.MeshStandardMaterial({
-        color: 0x1a1a1a, metalness: 0.5, roughness: 0.5
+        color: COLORS.laptopKeyboard, metalness: 0.5, roughness: 0.5
       });
       const kb = new THREE.Mesh(kbGeo, kbMat);
       kb.position.set(0, 0.09, -0.1);
@@ -172,7 +202,7 @@
 
       const tpGeo = new THREE.BoxGeometry(0.5, 0.005, 0.35);
       const tpMat = new THREE.MeshStandardMaterial({
-        color: 0x333333, metalness: 0.6, roughness: 0.4
+        color: COLORS.laptopTrackpad, metalness: 0.6, roughness: 0.4
       });
       const tp = new THREE.Mesh(tpGeo, tpMat);
       tp.position.set(0, 0.09, 0.45);
@@ -184,7 +214,7 @@
 
       const lidGeo = new THREE.BoxGeometry(2.2, 1.5, 0.06);
       const lidMat = new THREE.MeshStandardMaterial({
-        color: 0x2a2a2a, metalness: 0.7, roughness: 0.3
+        color: COLORS.laptopBase, metalness: 0.7, roughness: 0.3
       });
       const lid = new THREE.Mesh(lidGeo, lidMat);
       lid.position.set(0, 0.75, 0.03);
@@ -192,8 +222,8 @@
 
       const screenGeo = new THREE.BoxGeometry(1.9, 1.2, 0.005);
       const screenMat = new THREE.MeshStandardMaterial({
-        color: 0x111111,
-        emissive: 0x222244,
+        color: COLORS.screen,
+        emissive: COLORS.screenGlow,
         emissiveIntensity: 0.4,
         metalness: 0.1,
         roughness: 0.2
@@ -212,13 +242,13 @@
       excelGroup.scale.setScalar(ICON_CONFIG.scale);
       const cardGeo = new THREE.BoxGeometry(0.75, 0.75, 0.12);
       const cardMat = new THREE.MeshStandardMaterial({
-        color: 0x107c41, metalness: 0.6, roughness: 0.2
+        color: COLORS.excel, metalness: 0.6, roughness: 0.2
       });
       const card = new THREE.Mesh(cardGeo, cardMat);
       excelGroup.add(card);
 
       const xBar1Geo = new THREE.BoxGeometry(0.35, 0.08, 0.05);
-      const xMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 });
+      const xMat = new THREE.MeshStandardMaterial({ color: COLORS.light, roughness: 0.5 });
       const xBar1 = new THREE.Mesh(xBar1Geo, xMat);
       xBar1.rotation.z = Math.PI / 4;
       xBar1.position.z = 0.08;
@@ -239,13 +269,13 @@
       gsheetGroup.scale.setScalar(ICON_CONFIG.scale);
       const cardGeo = new THREE.BoxGeometry(0.75, 0.75, 0.12);
       const cardMat = new THREE.MeshStandardMaterial({
-        color: 0x0f9d58, metalness: 0.6, roughness: 0.2
+        color: COLORS.gsheet, metalness: 0.6, roughness: 0.2
       });
       const card = new THREE.Mesh(cardGeo, cardMat);
       gsheetGroup.add(card);
 
       const lineGeo = new THREE.BoxGeometry(0.4, 0.03, 0.05);
-      const lineMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 });
+      const lineMat = new THREE.MeshStandardMaterial({ color: COLORS.light, roughness: 0.5 });
 
       const line1 = new THREE.Mesh(lineGeo, lineMat);
       line1.position.set(0, 0.15, 0.08);

@@ -16,16 +16,16 @@
 @keyframes dotPulse {
   0%, 100% {
     box-shadow:
-      0 0 4px #4ade80,
-      0 0 10px rgba(74, 222, 128, 0.6),
-      0 0 20px rgba(74, 222, 128, 0.3);
+      0 0 4px var(--success),
+      0 0 10px rgba(var(--success-rgb), 0.6),
+      0 0 20px rgba(var(--success-rgb), 0.3);
     transform: scale(1);
   }
   50% {
     box-shadow:
-      0 0 6px #4ade80,
-      0 0 18px rgba(74, 222, 128, 0.8),
-      0 0 35px rgba(74, 222, 128, 0.4);
+      0 0 6px var(--success),
+      0 0 18px rgba(var(--success-rgb), 0.8),
+      0 0 35px rgba(var(--success-rgb), 0.4);
     transform: scale(1.15);
   }
 }

@@ -57,8 +57,8 @@
       font-size: 0.88rem; font-family: var(--font-mono);
       animation: fadeIn 0.3s ease;
       ${type === 'success'
-        ? 'background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.2);'
-        : 'background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2);'}
+        ? 'background: rgba(var(--success-rgb), 0.1); color: var(--success); border: 1px solid rgba(var(--success-rgb), 0.2);'
+        : 'background: rgba(var(--error-rgb), 0.1); color: var(--error); border: 1px solid rgba(var(--error-rgb), 0.2);'}
     `;
     form.parentElement.appendChild(div);
 
