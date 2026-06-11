@@ -1,0 +1,140 @@
+/* ============================================
+   PORTFOLIO — Animations & Keyframes
+   ============================================ */
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ---- Green Dot Pulse ---- */
+@keyframes dotPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 4px var(--success),
+      0 0 10px rgba(var(--success-rgb), 0.6),
+      0 0 20px rgba(var(--success-rgb), 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 6px var(--success),
+      0 0 18px rgba(var(--success-rgb), 0.8),
+      0 0 35px rgba(var(--success-rgb), 0.4);
+    transform: scale(1.15);
+  }
+}
+
+/* ---- Hero Scroll Chevron ---- */
+@keyframes bounce-chevron {
+  0%, 100% { transform: rotate(45deg) translateY(-8px); opacity: 0.6; }
+  50% { transform: rotate(45deg) translateY(8px); opacity: 1; }
+}
+
+/* ---- Scroll Indicator Animations ---- */
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes lineFlow {
+  0% {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+
+@keyframes dotFlow {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
+/* ---- Hero Entrance Stagger ---- */
+.hero-label   { opacity: 0; animation: fadeSlideUp 0.7s ease forwards; animation-delay: 0.1s; }
+.hero-heading { opacity: 0; animation: fadeSlideUp 0.7s ease forwards; animation-delay: 0.25s; }
+.hero-sub     { opacity: 0; animation: fadeSlideUp 0.7s ease forwards; animation-delay: 0.4s; }
+.hero-buttons { opacity: 0; animation: fadeSlideUp 0.7s ease forwards; animation-delay: 0.55s; }
+.hero-socials { opacity: 0; animation: fadeSlideUp 0.7s ease forwards; animation-delay: 0.7s; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Stagger Children (used by JS) ---- */
+.stagger-child {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.stagger-child.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ---- Laptop float idle ---- */
+@keyframes float-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ---- Card shimmer on hover (subtle) ---- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ---- Fade In generic ---- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---- Scale In ---- */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ---- Mobile Nav Fade ---- */
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mobile-nav.open a {
+  animation: navFadeIn 0.4s ease forwards;
+}
+.mobile-nav.open a:nth-child(1) { animation-delay: 0.05s; }
+.mobile-nav.open a:nth-child(2) { animation-delay: 0.10s; }
+.mobile-nav.open a:nth-child(3) { animation-delay: 0.15s; }
+.mobile-nav.open a:nth-child(4) { animation-delay: 0.20s; }
+.mobile-nav.open a:nth-child(5) { animation-delay: 0.25s; }
+
+/* ---- Scroll Top Button ---- */
+.scroll-top { transition: opacity 0.35s ease, transform 0.35s ease; }
+.scroll-top:hover { transform: translateY(-3px); }

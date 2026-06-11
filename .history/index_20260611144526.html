@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spreadsheet VA Portfolio — Efren Mangurali</title>
+  <meta name="description" content="Professional Spreadsheet Virtual Assistant portfolio. Specializing in data entry, spreadsheet management, dashboards, and business reporting. Available for remote work.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ============ BACKGROUND ============ -->
+<div class="premium-bg">
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+  <div class="bg-glow glow-3"></div>
+  <div class="perspective-grid"></div>
+</div>
+
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="#hero" class="navbar-name">Efren Mangurali</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#skills">Skills</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-nav">
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#skills">Skills</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-label"><span class="green-dot"></span> Available for Remote Work</div>
+        <h1 class="hero-heading">Spreadsheet Virtual Assistant</h1>
+        <div class="hero-typewriter-main"><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></div>
+        <p class="hero-sub">Hi, I'm <strong>Efren Mangurali</strong> — Helping businesses stay organized through accurate spreadsheets, reports, dashboards, and data management.</p>
+        <div class="hero-buttons">
+          <a href="#portfolio" class="btn-primary">View My Work</a>
+          <a href="resume/resume.pdf" class="btn-secondary" download>Download Resume</a>
+        </div>
+        <div class="hero-socials">
+          <a href="#" target="_blank">LinkedIn</a>
+          <a href="mailto:efren.mangurali.work@email.com">Email</a>
+          <a href="#" target="_blank">OnlineJobs.ph</a>
+        </div>
+        <!-- Mobile fallback for 3D laptop -->
+        <div class="hero-mobile-visual" style="display:none;"><i class="fas fa-laptop"></i></div>
+      </div>
+      <!-- Desktop laptop placeholder col (canvas renders absolutely over this) -->
+      <div class="hero-right-col"></div>
+    </div>
+  </div>
+  <!-- Laptop canvas outside .container so body overflow-x doesn't clip it -->
+  <div id="laptop-canvas-container"></div>
+  <div class="scroll-indicator">
+    <span>Scroll to explore</span>
+    <div class="scroll-indicator-visual">
+      <div class="chevron-down"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="section-pad">
+  <div class="container">
+    <p class="section-label reveal">— 02 About</p>
+    <h2 class="section-heading reveal">A Business Analytics Student Passionate About Spreadsheets</h2>
+    <div class="about-grid">
+      <div class="profile-card glass-card reveal">
+        <div class="profile-img-wrap">
+          <img src="assets/images/profile.png" alt="Profile photo of Efren Mangurali" onerror="this.style.background='var(--bg-mid)';this.alt='Photo placeholder';">
+        </div>
+        <h3 class="profile-name">Efren Mangurali</h3>
+        <p class="profile-title">Spreadsheet VA · BSIT Student</p>
+        <span class="availability-badge"><span class="green-dot"></span> Open to Remote Work</span>
+        <a href="#contact" class="btn-profile-contact">Contact Me <i class="fas fa-paper-plane"></i></a>
+      </div>
+      <div class="about-text reveal">
+        <p>I'm a BSIT student specializing in Business Analytics, and I've channeled my academic training into a genuine passion for data organization, spreadsheet management, and business reporting. I believe clean, well-structured data is the foundation of every great business decision.</p>
+        <p>I am actively developing practical spreadsheet and reporting skills through real-world portfolio projects and continuous learning.</p>
+        <p>My goal is to work with businesses and entrepreneurs who need a reliable, detail-oriented virtual assistant to handle their spreadsheet and data needs — so they can focus on growing their business.</p>
+        <div class="about-stats stagger-parent">
+          <div class="stat-card glass-card stagger-child"><div class="stat-icon"><i class="fas fa-chart-pie"></i></div><div class="stat-value">Portfolio Projects</div></div>
+          <div class="stat-card glass-card stagger-child"><div class="stat-icon"><i class="fas fa-graduation-cap"></i></div><div class="stat-value">BSIT Business Analytics</div></div>
+          <div class="stat-card glass-card stagger-child"><div class="stat-icon"><i class="fas fa-globe"></i></div><div class="stat-value">Available Remotely</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services" class="section-pad">
+  <div class="container">
+    <p class="section-label reveal">— 03 Services</p>
+    <h2 class="section-heading reveal">What I Can Do For You</h2>
+    <p class="section-sub reveal">Reliable, accurate, and organized spreadsheet support for your business.</p>
+    <div class="services-grid stagger-parent">
+      <div class="service-card glass-card stagger-child"><div class="service-icon"><i class="fas fa-clipboard-list"></i></div><h3 class="service-name">Spreadsheet Management</h3><p class="service-desc">Setting up, maintaining, and organizing your Google Sheets or Excel files so your data is always clean, consistent, and easy to use.</p></div>
+      <div class="service-card glass-card stagger-child"><div class="service-icon"><i class="fas fa-keyboard"></i></div><h3 class="service-name">Data Entry</h3><p class="service-desc">Accurate and efficient data entry from various sources — forms, PDFs, documents — directly into your spreadsheets with zero errors.</p></div>
+      <div class="service-card glass-card stagger-child"><div class="service-icon"><i class="fas fa-broom"></i></div><h3 class="service-name">Data Cleaning &amp; Organization</h3><p class="service-desc">Removing duplicates, fixing formatting issues, standardizing entries, and restructuring raw data into organized, analysis-ready files.</p></div>
+      <div class="service-card glass-card stagger-child"><div class="service-icon"><i class="fas fa-file-alt"></i></div><h3 class="service-name">Report Creation</h3><p class="service-desc">Turning your raw data into clear, readable reports that summarize performance, trends, or key business metrics.</p></div>
+      <div class="service-card glass-card stagger-child"><div class="service-icon"><i class="fas fa-chart-line"></i></div><h3 class="service-name">Dashboard Creation</h3><p class="service-desc">Building visual Excel or Google Sheets dashboards with charts, summaries, and dynamic views so you can see your business at a glance.</p></div>
+      <div class="service-card glass-card stagger-child"><div class="service-icon"><i class="fas fa-folder-open"></i></div><h3 class="service-name">Administrative Support</h3><p class="service-desc">Handling business records, organizing files, maintaining trackers, and supporting day-to-day admin tasks with attention to detail.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="section-pad">
+  <div class="container">
+    <p class="section-label reveal">— 04 Skills</p>
+    <h2 class="section-heading reveal">Tools &amp; Skills</h2>
+
+    <div class="skills-grid">
+      <div class="skills-col reveal">
+        <h3>Technical Skills</h3>
+        <div class="pill-tags">
+          <span class="pill-tag">Pivot Tables</span>
+          <span class="pill-tag">XLOOKUP / VLOOKUP</span>
+          <span class="pill-tag">Conditional Formatting</span>
+          <span class="pill-tag">Data Cleaning</span>
+          <span class="pill-tag">Data Organization</span>
+          <span class="pill-tag">Chart &amp; Dashboard Creation</span>
+          <span class="pill-tag">Report Writing</span>
+        </div>
+      </div>
+
+      <div class="skills-col reveal">
+        <h3>Professional Skills</h3>
+        <div class="pill-tags">
+          <span class="pill-tag">Attention to Detail</span>
+          <span class="pill-tag">Organized &amp; Systematic</span>
+          <span class="pill-tag">Time Management</span>
+          <span class="pill-tag">Fast Learner</span>
+          <span class="pill-tag">Clear Communication</span>
+          <span class="pill-tag">Reliable &amp; Deadline-Driven</span>
+          <span class="pill-tag">Adaptable to Feedback</span>
+          <span class="pill-tag">Works Independently</span>
+          <span class="pill-tag">Remote-Work Ready</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-section">
+      <h3>Tools</h3>
+      <div class="tools-grid stagger-parent">
+        <div class="tool-card stagger-child">
+          <img src="assets/images/app icon/excel.png" alt="Microsoft Excel" onerror="this.style.display='none'">
+          <span>Microsoft Excel</span>
+        </div>
+        <div class="tool-card stagger-child">
+          <img src="assets/images/app icon/google-sheets.png" alt="Google Sheets" onerror="this.style.display='none'">
+          <span>Google Sheets</span>
+        </div>
+        <div class="tool-card stagger-child">
+          <img src="assets/images/app icon/word.png" alt="Microsoft Word" onerror="this.style.display='none'">
+          <span>Microsoft Word</span>
+        </div>
+        <div class="tool-card stagger-child">
+          <img src="assets/images/app icon/google-docs.png" alt="Google Docs" onerror="this.style.display='none'">
+          <span>Google Docs</span>
+        </div>
+        <div class="tool-card stagger-child">
+          <img src="assets/images/app icon/powerpoint.png" alt="Microsoft PowerPoint" onerror="this.style.display='none'">
+          <span>Microsoft PowerPoint</span>
+        </div>
+        <div class="tool-card stagger-child">
+          <img src="assets/images/app icon/google-drive.png" alt="Google Drive" onerror="this.style.display='none'">
+          <span>Google Drive</span>
+        </div>
+        <div class="tool-card stagger-child">
+          <img src="assets/images/app icon/google-forms.png" alt="Google Forms" onerror="this.style.display='none'">
+          <span>Google Forms</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTFOLIO ============ -->
+<section id="portfolio">
+  <div class="portfolio-sticky-wrapper">
+    <div class="container">
+      <p class="section-label reveal">— 05 Portfolio</p>
+      <h2 class="section-heading reveal">Sample Projects</h2>
+      <p class="section-sub reveal">Practice projects built to demonstrate real-world business spreadsheet skills.</p>
+      <div class="portfolio-horizontal-container">
+        <div class="portfolio-horizontal-track stagger-parent">
+          <div class="project-card stagger-child" data-project="project_1" data-description="Built an Excel dashboard that summarizes sales performance using Pivot Tables, charts, and conditional formatting, making it easier to monitor trends and identify top-performing products.">
+            <img class="project-cover" src="assets/images/projects/project_1/cover.png" alt="Sales Performance Dashboard cover">
+            <div class="project-overlay"></div>
+            <div class="project-body">
+              <p class="project-tag">Excel Dashboard</p>
+              <h3 class="project-title">Sales Performance Dashboard</h3>
+              <div class="project-skills"><span>Excel</span><span>Pivot Tables</span><span>Charts</span><span>Conditional Formatting</span></div>
+              <button type="button" class="project-link">View Project →</button>
+            </div>
+          </div>
+          <div class="project-card stagger-child" data-project="project_2" data-description="Created an inventory tracking system with automated low-stock alerts and product summaries to improve inventory visibility and organization.">
+            <img class="project-cover" src="assets/images/projects/project_2/cover.png" alt="Inventory Tracking Sheet cover">
+            <div class="project-overlay"></div>
+            <div class="project-body">
+              <p class="project-tag">Google Sheets</p>
+              <h3 class="project-title">Inventory Tracking Sheet</h3>
+              <div class="project-skills"><span>Google Sheets</span><span>XLOOKUP</span><span>Conditional Formatting</span><span>Data Organization</span></div>
+              <button type="button" class="project-link">View Project →</button>
+            </div>
+          </div>
+          <div class="project-card stagger-child" data-project="project_3" data-description="Developed a customer sales report that transforms raw transaction data into organized summaries and visual reports for easier business review.">
+            <img class="project-cover" src="assets/images/projects/project_3/cover.png" alt="Customer Sales Report cover">
+            <div class="project-overlay"></div>
+            <div class="project-body">
+              <p class="project-tag">Reporting</p>
+              <h3 class="project-title">Customer Sales Report</h3>
+              <div class="project-skills"><span>Excel</span><span>Data Cleaning</span><span>Reporting</span><span>Charts</span></div>
+              <button type="button" class="project-link">View Project →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-scroll-dots"></div>
+    </div>
+  </div>
+</section>
+
+<div class="project-modal" id="project-modal" aria-hidden="true">
+  <div class="project-modal-backdrop" data-project-close></div>
+  <button type="button" class="project-modal-close" data-project-close aria-label="Close project"><i class="fas fa-times"></i></button>
+  <button type="button" class="project-modal-nav project-modal-prev" data-project-prev aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+  <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <div class="project-modal-media">
+      <div class="project-modal-image-stage">
+        <div class="project-image-card">
+          <img class="project-modal-img" src="" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="project-modal-info">
+      <p class="project-modal-count">1 / 1</p>
+      <h3 id="project-modal-title"></h3>
+      <p class="project-modal-desc"></p>
+    </div>
+  </div>
+  <button type="button" class="project-modal-nav project-modal-next" data-project-next aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<!-- Certifications section hidden — will be added when earned -->
+
+<!-- ============ WHY HIRE ME ============ -->
+<section id="why-me" class="section-pad">
+  <div class="container">
+    <p class="section-label reveal">— 06 Why Me</p>
+    <h2 class="section-heading reveal">Why Work With Me?</h2>
+    <div class="why-grid stagger-parent">
+      <div class="why-card glass-card stagger-child"><div class="why-icon"><i class="fas fa-bullseye"></i></div><h3 class="why-title">Detail-Oriented</h3><p class="why-desc">I take accuracy seriously — every cell, formula, and label is checked before delivery.</p></div>
+      <div class="why-card glass-card stagger-child"><div class="why-icon"><i class="fas fa-folder-open"></i></div><h3 class="why-title">Organized by Nature</h3><p class="why-desc">I naturally structure information in a way that's easy to read, navigate, and use.</p></div>
+      <div class="why-card glass-card stagger-child"><div class="why-icon"><i class="fas fa-bolt"></i></div><h3 class="why-title">Fast Learner</h3><p class="why-desc">My Business Analytics background means I adapt quickly to new tools, processes, and data formats.</p></div>
+      <div class="why-card glass-card stagger-child"><div class="why-icon"><i class="fas fa-handshake"></i></div><h3 class="why-title">Reliable &amp; Deadline-Driven</h3><p class="why-desc">I communicate proactively and deliver work on time, every time.</p></div>
+      <div class="why-card glass-card stagger-child"><div class="why-icon"><i class="fas fa-globe"></i></div><h3 class="why-title">Remote-Work Ready</h3><p class="why-desc">Comfortable working independently, managing my own schedule, and communicating clearly through digital tools.</p></div>
+      <div class="why-card glass-card stagger-child"><div class="why-icon"><i class="fas fa-briefcase"></i></div><h3 class="why-title">Business-Focused</h3><p class="why-desc">I understand how spreadsheets serve real business decisions — I don't just fill cells, I help you make sense of your data.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESUME ============ -->
+<section id="resume" class="section-pad">
+  <div class="container">
+    <p class="section-label reveal">— 07 Resume</p>
+    <h2 class="section-heading reveal">My Resume</h2>
+    <p class="resume-summary reveal">I am a detail-oriented BSIT Business Analytics student with a focus on spreadsheet management, data organization, and business reporting. I am actively developing practical spreadsheet management, reporting, and data organization skills through portfolio projects and continuous learning.</p>
+    <a href="resume/resume.pdf" class="btn-download reveal" download><i class="fas fa-arrow-down"></i> Download Resume (PDF)</a>
+    <p class="resume-note reveal">Resume available in PDF format. Last updated June 2026.</p>
+  </div>
+</section>
+
+<!-- Testimonials section hidden — will be added after real client work -->
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section-pad">
+  <div class="container">
+    <p class="section-label reveal">— 08 Contact</p>
+    <h2 class="section-heading reveal">Let's Work Together</h2>
+    <p class="section-sub reveal">Available for remote spreadsheet VA, data entry, and admin support roles. I'd love to hear from you.</p>
+    <div class="contact-grid stagger-parent">
+      <div class="contact-info stagger-child">
+        <div class="contact-item"><div class="contact-icon"><i class="fas fa-envelope"></i></div><div><p class="contact-label">Email</p><p class="contact-value"><a href="mailto:efren.mangurali.work@email.com">efren.mangurali.work@email.com</a></p></div></div>
+        <div class="contact-item"><div class="contact-icon"><i class="fab fa-linkedin-in"></i></div><div><p class="contact-label">LinkedIn</p><p class="contact-value"><a href="#" target="_blank">linkedin.com/in/yourname</a></p></div></div>
+        <div class="contact-item"><div class="contact-icon"><i class="fas fa-briefcase"></i></div><div><p class="contact-label">OnlineJobs.ph</p><p class="contact-value"><a href="#" target="_blank">View Profile</a></p></div></div>
+        <div class="contact-item"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><div><p class="contact-label">Location</p><p class="contact-value">Philippines (Remote)</p></div></div>
+        <div class="contact-item"><div class="contact-icon"><i class="fas fa-clock"></i></div><div><p class="contact-label">Availability</p><p class="contact-value">Full-time / Part-time — Open to discuss</p></div></div>
+      </div>
+      <div class="stagger-child">
+        <form id="contact-form" class="contact-form">
+          <div class="form-group"><label for="form-name">Name *</label><input type="text" id="form-name" required placeholder="Your name"></div>
+          <div class="form-group"><label for="form-email">Email *</label><input type="email" id="form-email" required placeholder="your@email.com"></div>
+          <div class="form-group"><label for="form-subject">Subject</label><input type="text" id="form-subject" placeholder="Project inquiry"></div>
+          <div class="form-group"><label for="form-message">Message *</label><textarea id="form-message" rows="5" required placeholder="Tell me about your project..."></textarea></div>
+          <button type="submit" class="btn-submit">Send Message →</button>
+        </form>
+        <p class="form-note">I typically respond within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><p class="footer-name">Efren Mangurali</p><p class="footer-role">Spreadsheet VA · Business Analytics Student</p></div>
+      <div class="footer-links"><a href="#about">About</a><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#contact">Contact</a></div>
+      <div class="footer-social">
+        <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:efren.mangurali.work@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        <a href="#" target="_blank" aria-label="OnlineJobs"><i class="fas fa-briefcase"></i></a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Efren Mangurali. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+
+<!-- Custom Scroll Progress Indicator (Right Side) -->
+<div id="scroll-progress-indicator" class="scroll-progress-indicator">
+  <div class="scroll-progress-track">
+    <div class="scroll-progress-bar"></div>
+  </div>
+  <div class="scroll-progress-dots">
+    <a href="#hero" class="scroll-dot active" data-section="hero" aria-label="Scroll to Hero"></a>
+    <a href="#about" class="scroll-dot" data-section="about" aria-label="Scroll to About"></a>
+    <a href="#services" class="scroll-dot" data-section="services" aria-label="Scroll to Services"></a>
+    <a href="#skills" class="scroll-dot" data-section="skills" aria-label="Scroll to Skills"></a>
+    <a href="#portfolio" class="scroll-dot" data-section="portfolio" aria-label="Scroll to Portfolio"></a>
+    <a href="#why-me" class="scroll-dot" data-section="why-me" aria-label="Scroll to Why Hire Me"></a>
+    <a href="#resume" class="scroll-dot" data-section="resume" aria-label="Scroll to Resume"></a>
+    <a href="#contact" class="scroll-dot" data-section="contact" aria-label="Scroll to Contact"></a>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/background.js" defer></script>
+<script src="assets/js/laptop-3d.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/contact.js" defer></script>
+</body>
+</html>
