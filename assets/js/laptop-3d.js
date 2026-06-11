@@ -180,61 +180,8 @@
     window.addEventListener('scroll', updateScrollTarget, { passive: true });
     updateScrollTarget();
 
-    /* ------- Procedural fallback laptop ------- */
-    function createProceduralLaptop() {
-      laptopGroup = new THREE.Group();
+    /* Procedural laptop fallback removed — no fallback when GLB missing */
 
-      const baseGeo = new THREE.BoxGeometry(2.2, 0.08, 1.5);
-      const baseMat = new THREE.MeshStandardMaterial({
-        color: COLORS.laptopBase, metalness: 0.7, roughness: 0.3
-      });
-      const base = new THREE.Mesh(baseGeo, baseMat);
-      base.position.y = 0.04;
-      laptopGroup.add(base);
-
-      const kbGeo = new THREE.BoxGeometry(1.8, 0.01, 1.0);
-      const kbMat = new THREE.MeshStandardMaterial({
-        color: COLORS.laptopKeyboard, metalness: 0.5, roughness: 0.5
-      });
-      const kb = new THREE.Mesh(kbGeo, kbMat);
-      kb.position.set(0, 0.09, -0.1);
-      laptopGroup.add(kb);
-
-      const tpGeo = new THREE.BoxGeometry(0.5, 0.005, 0.35);
-      const tpMat = new THREE.MeshStandardMaterial({
-        color: COLORS.laptopTrackpad, metalness: 0.6, roughness: 0.4
-      });
-      const tp = new THREE.Mesh(tpGeo, tpMat);
-      tp.position.set(0, 0.09, 0.45);
-      laptopGroup.add(tp);
-
-      lidPivot = new THREE.Group();
-      lidPivot.position.set(0, 0.08, -0.75);
-      laptopGroup.add(lidPivot);
-
-      const lidGeo = new THREE.BoxGeometry(2.2, 1.5, 0.06);
-      const lidMat = new THREE.MeshStandardMaterial({
-        color: COLORS.laptopBase, metalness: 0.7, roughness: 0.3
-      });
-      const lid = new THREE.Mesh(lidGeo, lidMat);
-      lid.position.set(0, 0.75, 0.03);
-      lidPivot.add(lid);
-
-      const screenGeo = new THREE.BoxGeometry(1.9, 1.2, 0.005);
-      const screenMat = new THREE.MeshStandardMaterial({
-        color: COLORS.screen,
-        emissive: COLORS.screenGlow,
-        emissiveIntensity: 0.4,
-        metalness: 0.1,
-        roughness: 0.2
-      });
-      const screen = new THREE.Mesh(screenGeo, screenMat);
-      screen.position.set(0, 0.78, 0.06);
-      lidPivot.add(screen);
-
-      lidPivot.rotation.x = Math.PI / 2;
-      scene.add(laptopGroup);
-    }
 
     /* ------- Procedural fallback Excel ------- */
     function createProceduralExcel() {
@@ -312,9 +259,7 @@
           }
         });
         scene.add(laptopGroup);
-      },
-      undefined,
-      () => createProceduralLaptop()
+      }
     );
 
     // 2. Excel
