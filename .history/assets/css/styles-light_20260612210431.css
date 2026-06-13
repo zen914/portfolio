@@ -1,0 +1,525 @@
+/* ============================================
+   PORTFOLIO — Light Mode Stylesheet (v2)
+   Drop this file AFTER your main styles.css
+   ============================================ */
+
+/* ---- Light Mode Design Tokens ---- */
+:root {
+  --color-black-rgb: 0, 0, 0;
+  --color-white-rgb: 255, 255, 255;
+
+  /* Warmer, softer off-white surfaces — less clinical than pure white */
+  --bg-deepest-rgb: 244, 242, 239;
+  --bg-dark-rgb:    238, 235, 231;
+  --bg-mid-rgb:     232, 228, 224;
+  --bg-surface-rgb: 190, 187, 183;
+
+  --bg-deepest: #F4F2EF;
+  --bg-dark:    #EEEBE7;
+  --bg-mid:     #E8E4E0;
+  --bg-surface: #BEBBB7;
+
+  --gray-1: #E9E6E2;
+  --gray-2: #EDEBE7;
+  --gray-3: #F1EFEC;
+  --gray-4: #F7F6F4;
+
+  /* Text — warm dark ink */
+  --text-primary-rgb:   24, 22, 20;
+  --text-secondary-rgb: 82, 78, 74;
+  --text-muted-rgb:     148, 143, 138;
+
+  --text-primary:   #181614;
+  --text-secondary: #524E4A;
+  --text-muted:     #948F8A;
+
+  /* Accent = dark ink */
+  --accent:       #181614;
+  --accent-glow:  rgba(24, 22, 20, 0.04);
+
+  /* Semantic */
+  --success-rgb: 22, 163, 74;
+  --warning-rgb: 202, 138, 4;
+  --info-rgb:    37, 99, 235;
+  --error-rgb:   220, 38, 38;
+
+  --success: rgb(var(--success-rgb));
+  --warning: rgb(var(--warning-rgb));
+  --info:    rgb(var(--info-rgb));
+  --error:   rgb(var(--error-rgb));
+
+  /* Surfaces */
+  --surface-glass:  rgba(255, 255, 255, 0.55);
+  --surface-soft:   rgba(255, 255, 255, 0.68);
+  --surface-medium: rgba(255, 255, 255, 0.82);
+  --surface-strong: rgba(24, 22, 20, 0.07);
+
+  /* Borders */
+  --border:        rgba(24, 22, 20, 0.09);
+  --border-soft:   rgba(24, 22, 20, 0.06);
+  --border-hover:  rgba(24, 22, 20, 0.22);
+  --border-strong: rgba(24, 22, 20, 0.30);
+
+  /* Shadows */
+  --card-shadow:  0 1px 4px rgba(24, 22, 20, 0.06), 0 6px 20px rgba(24, 22, 20, 0.07);
+  --hover-shadow: 0 6px 24px rgba(24, 22, 20, 0.13);
+
+  /* Project overlay — keep dark for readability over images */
+  --project-overlay-top: rgba(8, 8, 12, 0.93);
+  --project-overlay-mid: rgba(8, 8, 12, 0.56);
+  --project-overlay-end: rgba(8, 8, 12, 0.08);
+
+  /* Three.js */
+  --three-light:           #dedad6;
+  --three-laptop-base:     #ccc8c4;
+  --three-laptop-keyboard: #b4b0ac;
+  --three-laptop-trackpad: #c4c0bc;
+  --three-screen:          #eeeae6;
+  --three-screen-glow:     #dde4f8;
+  --three-excel:           #107c41;
+  --three-gsheet:          #0f9d58;
+}
+
+/* ======== SCROLLBAR — custom for light mode ======== */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(24, 22, 20, 0.20) transparent;
+}
+html::-webkit-scrollbar         { width: 5px; }
+html::-webkit-scrollbar-track   { background: transparent; }
+html::-webkit-scrollbar-thumb   {
+  background: rgba(24, 22, 20, 0.18);
+  border-radius: 99px;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: rgba(24, 22, 20, 0.32);
+}
+
+/* ======== BASE ======== */
+body {
+  background: var(--bg-deepest);
+  color: var(--text-secondary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ======== PREMIUM BACKGROUND — colour blobs ======== */
+.premium-bg {
+  background: var(--bg-deepest);
+  overflow: hidden;
+}
+
+/* Remove the original grid + gradient — replace with blob layer */
+.perspective-grid {
+  display: none;
+}
+
+/* Blob layer injected via ::before / ::after on .premium-bg */
+.premium-bg::before,
+.premium-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(100px);
+  opacity: 0.38;
+  z-index: 0;
+}
+
+/* Top-left warm rose blob */
+.premium-bg::before {
+  width: 680px;
+  height: 520px;
+  top: -120px;
+  left: -160px;
+  background: radial-gradient(circle, #f4b8c8 0%, #e8a4b8 40%, transparent 70%);
+  animation: blobDrift1 18s ease-in-out infinite alternate;
+}
+
+/* Bottom-right cool sky blob */
+.premium-bg::after {
+  width: 720px;
+  height: 560px;
+  bottom: -140px;
+  right: -180px;
+  background: radial-gradient(circle, #a8d4f5 0%, #90bef0 40%, transparent 70%);
+  animation: blobDrift2 22s ease-in-out infinite alternate;
+}
+
+/* Extra blobs via extra elements — add these two divs inside .premium-bg in your HTML:
+   <div class="blob blob-mid-amber"></div>
+   <div class="blob blob-mid-mint"></div>
+*/
+.blob {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(110px);
+  opacity: 0.28;
+  z-index: 0;
+}
+.blob-mid-amber {
+  width: 500px;
+  height: 400px;
+  top: 35%;
+  left: 55%;
+  background: radial-gradient(circle, #f9d48e 0%, #f0c060 50%, transparent 75%);
+  animation: blobDrift3 26s ease-in-out infinite alternate;
+}
+.blob-mid-mint {
+  width: 440px;
+  height: 380px;
+  top: 55%;
+  left: 15%;
+  background: radial-gradient(circle, #9de8d2 0%, #6dd4b8 50%, transparent 75%);
+  animation: blobDrift4 20s ease-in-out infinite alternate;
+}
+
+@keyframes blobDrift1 {
+  0%   { transform: translate(0px,   0px)   scale(1);    }
+  100% { transform: translate(60px,  50px)  scale(1.08); }
+}
+@keyframes blobDrift2 {
+  0%   { transform: translate(0px,   0px)   scale(1);    }
+  100% { transform: translate(-50px, -40px) scale(1.06); }
+}
+@keyframes blobDrift3 {
+  0%   { transform: translate(0px,   0px)  scale(1);    }
+  100% { transform: translate(-40px, 60px) scale(1.1);  }
+}
+@keyframes blobDrift4 {
+  0%   { transform: translate(0px,  0px)   scale(1);    }
+  100% { transform: translate(50px, -30px) scale(1.07); }
+}
+
+/* Subtle noise-like vignette on top of blobs */
+.bg-glow {
+  opacity: 0.10;
+}
+
+/* ======== NAVBAR — floating pill, centered, dark ======== */
+
+/* The brand name floats outside the pill on the left */
+.navbar {
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: transform 0.35s ease;
+}
+.navbar.hidden { transform: translateY(-110%); }
+
+.navbar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: auto;
+  position: relative;
+}
+
+/* Brand name — sits to the left, outside the pill */
+.navbar-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* The pill containing nav links — centred in the navbar */
+.nav-links {
+  display: flex;
+  gap: 6px;
+  margin: 0 auto;
+  background: rgba(20, 18, 16, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 24px rgba(24, 22, 20, 0.18), 0 1px 4px rgba(24, 22, 20, 0.12);
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: rgba(255, 255, 255, 0.58);
+  padding: 6px 14px;
+  border-radius: 100px;
+  position: relative;
+  transition: color 0.25s, background 0.25s;
+}
+
+/* Remove the underline bar — pill bg replaces it */
+.nav-links a::after { display: none; }
+
+.nav-links a:hover {
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.08);
+}
+.nav-links a.active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+/* Hamburger & mobile nav */
+.hamburger span { background: var(--text-primary); }
+.mobile-nav {
+  background: rgba(244, 242, 239, 0.97);
+  backdrop-filter: blur(20px);
+}
+.mobile-nav a       { color: var(--text-secondary); }
+.mobile-nav a:hover { color: var(--text-primary); }
+
+/* Push hero content down to account for the taller pill navbar */
+#hero { padding-top: 80px; }
+
+/* ======== GLASS CARD ======== */
+.glass-card {
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ======== HERO ======== */
+.hero-label       { color: var(--text-muted); }
+.hero-heading     { color: var(--text-primary); }
+.hero-sub         { color: var(--text-secondary); }
+.hero-socials a   { color: var(--text-muted); }
+.hero-socials a:hover { color: var(--text-primary); }
+
+.green-dot {
+  box-shadow:
+    0 0 4px var(--success),
+    0 0 10px rgba(var(--success-rgb), 0.5),
+    0 0 20px rgba(var(--success-rgb), 0.22);
+}
+
+#typewriter-text  { color: #16a34a; }
+.typewriter-cursor { color: #16a34a; }
+
+@keyframes letter-glow {
+  0%   { color: #16a34a; text-shadow: none; }
+  30%  { color: #15803d; text-shadow: 0 0 10px rgba(22,163,74,0.55), 0 0 24px rgba(22,163,74,0.28); }
+  100% { color: #16a34a; text-shadow: 0 0 6px rgba(22,163,74,0.14); }
+}
+
+/* ======== BUTTONS ======== */
+.btn-primary  { background: var(--text-primary); color: #F4F2EF; }
+.btn-primary:hover  { box-shadow: var(--hover-shadow); }
+.btn-secondary { border-color: var(--border); color: var(--text-primary); }
+.btn-secondary:hover { border-color: var(--border-hover); }
+.btn-download  { background: var(--text-primary); color: #F4F2EF; }
+.btn-download:hover  { box-shadow: var(--hover-shadow); }
+.btn-submit    { background: var(--text-primary); color: #F4F2EF; }
+
+/* ======== SECTION TYPOGRAPHY ======== */
+.section-label   { color: var(--text-muted); }
+.section-heading { color: var(--text-primary); }
+.section-sub     { color: var(--text-secondary); }
+
+/* ======== SCROLL CHEVRON ======== */
+.scroll-indicator span {
+  color: var(--text-muted);
+}
+.chevron-down {
+  border-right-color: rgba(24, 22, 20, 0.35);
+  border-bottom-color: rgba(24, 22, 20, 0.35);
+}
+
+/* ======== ABOUT ======== */
+.profile-card   { background: var(--surface-soft); }
+.profile-name   { color: var(--text-primary); }
+.profile-title  { color: var(--text-muted); }
+.availability-badge {
+  color: var(--success);
+  border-color: rgba(var(--success-rgb), 0.25);
+  background: rgba(var(--success-rgb), 0.07);
+}
+.profile-img-wrap { border-color: var(--border); }
+.btn-profile-contact {
+  color: var(--text-primary);
+  background: rgba(24, 22, 20, 0.04);
+  border-color: var(--border);
+}
+.btn-profile-contact:hover {
+  background: rgba(24, 22, 20, 0.08);
+  border-color: var(--border-hover);
+}
+
+/* ======== SERVICES ======== */
+.service-card:hover { border-color: rgba(24, 22, 20, 0.18); box-shadow: var(--hover-shadow); }
+.service-name { color: var(--text-primary); }
+.service-desc { color: var(--text-secondary); }
+
+/* ======== SKILLS ======== */
+.skills-col h3  { color: var(--text-primary); }
+.skill-bar-label { color: var(--text-secondary); }
+.skill-bar-track { background: rgba(24, 22, 20, 0.09); }
+.skill-bar-fill  { background: var(--text-primary); }
+.pill-tag {
+  background: rgba(24, 22, 20, 0.04);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+.pill-tag:hover { border-color: var(--border-hover); background: rgba(24, 22, 20, 0.07); }
+.tools-section h3 { color: var(--text-primary); }
+.tool-card img   { border-color: rgba(24, 22, 20, 0.13); }
+.tool-card:hover img { border-color: rgba(24, 22, 20, 0.28); }
+.tool-card span  { color: var(--text-secondary); }
+
+/* ======== PORTFOLIO ======== */
+.project-card { background-color: var(--bg-mid); border-color: var(--border); }
+.project-card:hover { box-shadow: 0 20px 48px rgba(24, 22, 20, 0.15); }
+.project-overlay {
+  background: linear-gradient(
+    to top,
+    var(--project-overlay-top) 0%,
+    var(--project-overlay-mid) 55%,
+    var(--project-overlay-end) 100%
+  );
+}
+.project-tag   { color: rgba(255, 255, 255, 0.65); }
+.project-title { color: #ffffff; }
+.project-skills span {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.85);
+}
+.project-link { color: #ffffff; }
+.project-scroll-dot { background: rgba(24, 22, 20, 0.16); }
+.project-scroll-dot.active { background: var(--text-primary); border-color: var(--text-primary); }
+
+/* ======== PROJECT MODAL ======== */
+.project-modal-backdrop { background: rgba(20, 18, 16, 0.70); }
+.project-modal-close,
+.project-modal-nav {
+  color: var(--text-primary);
+  background: rgba(244, 242, 239, 0.90);
+  border-color: var(--border);
+}
+.project-modal-close:hover,
+.project-modal-nav:hover {
+  background: rgba(244, 242, 239, 0.99);
+  border-color: var(--border-hover);
+}
+.project-modal-count { color: var(--text-muted); }
+.project-modal-info h3 { color: var(--text-primary); }
+.project-modal-desc { color: var(--text-secondary); }
+
+/* ======== CERTIFICATIONS ======== */
+.cert-name   { color: var(--text-primary); }
+.cert-issuer { color: var(--text-muted); }
+.cert-badge.earned   { background: rgba(var(--success-rgb), 0.10); color: rgb(var(--success-rgb)); }
+.cert-badge.progress { background: rgba(var(--warning-rgb), 0.10); color: rgb(var(--warning-rgb)); }
+.cert-badge.academic { background: rgba(var(--info-rgb), 0.10); color: rgb(var(--info-rgb)); }
+.certs-note  { color: var(--text-muted); }
+
+/* ======== WHY HIRE ME ======== */
+.why-card:hover { border-color: rgba(24, 22, 20, 0.18); box-shadow: var(--hover-shadow); }
+.why-title { color: var(--text-primary); }
+.why-desc  { color: var(--text-secondary); }
+
+/* ======== RESUME ======== */
+.resume-summary { color: var(--text-secondary); }
+.resume-note    { color: var(--text-muted); border-top-color: var(--border); }
+
+/* ======== TESTIMONIALS ======== */
+.testimonial-quote-mark { color: rgba(24, 22, 20, 0.11); }
+.testimonial-text   { color: var(--text-secondary); }
+.testimonial-author { color: var(--text-primary); }
+.testimonial-role   { color: var(--text-muted); }
+.testimonial-stars  { color: var(--warning); }
+
+/* ======== CONTACT ======== */
+.contact-icon  { background: rgba(24, 22, 20, 0.04); border-color: var(--border); color: var(--text-primary); }
+.contact-label { color: var(--text-muted); }
+.contact-value { color: var(--text-primary); }
+.form-group label { color: var(--text-muted); }
+.form-group input,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--text-muted); }
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 3px rgba(24, 22, 20, 0.06);
+  background: rgba(255, 255, 255, 0.96);
+}
+.form-note { color: var(--text-muted); }
+
+/* ======== FOOTER ======== */
+.site-footer     { border-top-color: var(--border); background: var(--bg-dark); }
+.footer-name     { color: var(--text-primary); }
+.footer-role     { color: var(--text-muted); }
+.footer-links a  { color: var(--text-muted); }
+.footer-links a:hover { color: var(--text-primary); }
+.footer-social a {
+  background: rgba(24, 22, 20, 0.04);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+.footer-social a:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  background: rgba(24, 22, 20, 0.08);
+}
+.footer-copy { color: var(--text-muted); border-top-color: var(--border); }
+
+/* ======== SCROLL TOP ======== */
+.scroll-top {
+  background: rgba(255, 255, 255, 0.80);
+  border-color: var(--border);
+  color: var(--text-primary);
+  box-shadow: var(--card-shadow);
+}
+.scroll-top:hover { background: rgba(255, 255, 255, 0.96); }
+
+/* ======== SCROLL PROGRESS INDICATOR ======== */
+.scroll-progress-track   { background: rgba(24, 22, 20, 0.10); }
+.scroll-progress-bar     { background: var(--text-primary); box-shadow: 0 0 8px rgba(24, 22, 20, 0.28); }
+.scroll-dot              { background: rgba(24, 22, 20, 0.16); }
+.scroll-dot.active       { background: var(--text-primary); box-shadow: 0 0 8px rgba(24, 22, 20, 0.42); }
+
+/* ======== SECTION ALTERNATING BACKGROUNDS ======== */
+#about          { background: var(--bg-deepest); }
+#services       { background: var(--bg-dark); }
+#skills         { background: var(--bg-deepest); }
+#portfolio      { background: var(--bg-dark); }
+#certifications { background: var(--bg-deepest); }
+#why-me         { background: var(--bg-dark); }
+#resume         { background: var(--bg-deepest); }
+#testimonials   { background: var(--bg-dark); }
+#contact        { background: var(--bg-deepest); }
+
+/* ======== ACCESSIBILITY: reduced-motion ======== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .stagger-child, .skill-bar-fill,
+  .premium-bg::before, .premium-bg::after,
+  .blob {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    animation: none !important;
+  }
+}

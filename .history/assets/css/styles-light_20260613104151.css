@@ -1,0 +1,648 @@
+/* ============================================
+   PORTFOLIO — Light Mode Stylesheet (v4)
+   Drop this file AFTER your main styles.css
+   ============================================ */
+
+/* ---- Light Mode Design Tokens ---- */
+:root {
+  --color-black-rgb: 0, 0, 0;
+  --color-white-rgb: 255, 255, 255;
+
+  --bg-deepest-rgb: 244, 242, 239;
+  --bg-dark-rgb:    238, 235, 231;
+  --bg-mid-rgb:     232, 228, 224;
+  --bg-surface-rgb: 190, 187, 183;
+
+  --bg-deepest: #F4F2EF;
+  --bg-dark:    #EEEBE7;
+  --bg-mid:     #E8E4E0;
+  --bg-surface: #BEBBB7;
+
+  --gray-1: #E9E6E2;
+  --gray-2: #EDEBE7;
+  --gray-3: #F1EFEC;
+  --gray-4: #F7F6F4;
+
+  --text-primary-rgb:   24, 22, 20;
+  --text-secondary-rgb: 70, 66, 62;
+  --text-muted-rgb:     148, 143, 138;
+
+  --text-primary:   #181614;
+  --text-secondary: #46423e;
+  --text-muted:     #534c45;
+
+  --accent:      #181614;
+  --accent-glow: rgba(24, 22, 20, 0.04);
+
+  --success-rgb: 22, 163, 74;
+  --warning-rgb: 202, 138, 4;
+  --info-rgb:    37, 99, 235;
+  --error-rgb:   220, 38, 38;
+
+  --success: rgb(var(--success-rgb));
+  --warning: rgb(var(--warning-rgb));
+  --info:    rgb(var(--info-rgb));
+  --error:   rgb(var(--error-rgb));
+
+  /* Dark glass surfaces */
+  --surface-glass:  rgba(18, 16, 14, 0.60);
+  --surface-soft:   rgba(18, 16, 14, 0.55);
+  --surface-medium: rgba(18, 16, 14, 0.70);
+  --surface-strong: rgba(18, 16, 14, 0.80);
+
+  --border:        rgba(255, 255, 255, 0.10);
+  --border-soft:   rgba(255, 255, 255, 0.07);
+  --border-hover:  rgba(255, 255, 255, 0.22);
+  --border-strong: rgba(255, 255, 255, 0.30);
+
+  --card-shadow:  0 2px 8px rgba(0, 0, 0, 0.25), 0 8px 32px rgba(0, 0, 0, 0.20);
+  --hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+
+  --project-overlay-top: rgba(8, 8, 12, 0.93);
+  --project-overlay-mid: rgba(8, 8, 12, 0.56);
+  --project-overlay-end: rgba(8, 8, 12, 0.08);
+
+  --three-light:           #dedad6;
+  --three-laptop-base:     #ccc8c4;
+  --three-laptop-keyboard: #b4b0ac;
+  --three-laptop-trackpad: #c4c0bc;
+  --three-screen:          #eeeae6;
+  --three-screen-glow:     #dde4f8;
+  --three-excel:           #107c41;
+  --three-gsheet:          #0f9d58;
+}
+
+/* ======== SCROLLBAR ======== */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(24, 22, 20, 0.22) transparent;
+}
+html::-webkit-scrollbar       { width: 5px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb {
+  background: rgba(24, 22, 20, 0.20);
+  border-radius: 99px;
+}
+html::-webkit-scrollbar-thumb:hover { background: rgba(24, 22, 20, 0.36); }
+
+/* ======== BASE ======== */
+body {
+  background: var(--bg-deepest);
+  color: var(--text-secondary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ======== PREMIUM BACKGROUND — dark drifting blobs ======== */
+/*
+  position: fixed = blobs stay put while the page scrolls.
+  Each blob has a unique animation-duration + animation-delay so
+  they are always out of phase with each other — pure CSS parallax feel.
+  hue-rotate + brightness pulses give the glow/colour-shift effect.
+*/
+.premium-bg {
+  background: transparent;
+  overflow: visible;
+}
+
+.perspective-grid { display: none; }
+.bg-glow          { display: none; }
+
+.premium-bg::before,
+.premium-bg::after {
+  content: "";
+  position: fixed;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform, filter, opacity;
+}
+
+/* Blob 1 — dark inky, top-left, slow rotation + glow pulse */
+.premium-bg::before {
+  width: 600px;
+  height: 500px;
+  top: 2vh;
+  left: 2vw;
+  background: radial-gradient(circle at 40% 40%,
+    rgba(30, 26, 22, 0.95) 0%,
+    rgba(20, 18, 14, 0.80) 45%,
+    transparent 72%);
+  filter: blur(272px) brightness(1);
+  opacity: 0.70;
+  animation:
+    blobDrift1  16s ease-in-out  infinite alternate,
+    blobGlow1   8s  ease-in-out  infinite alternate,
+    blobSpin1   60s linear       infinite;
+}
+
+/* Blob 2 — slightly warm dark, bottom-right */
+.premium-bg::after {
+  width: 620px;
+  height: 520px;
+  bottom: 4vh;
+  right: 2vw;
+  background: radial-gradient(circle at 55% 55%,
+    rgba(28, 24, 20, 0.92) 0%,
+    rgba(18, 14, 10, 0.75) 45%,
+    transparent 72%);
+  filter: blur(272px) brightness(1);
+  opacity: 0.65;
+  animation:
+    blobDrift2  21s ease-in-out  infinite alternate,
+    blobGlow2   11s ease-in-out  infinite alternate,
+    blobSpin2   80s linear       infinite reverse;
+  animation-delay: -7s, -4s, 0s;
+}
+
+/* Blob 3 — mid, slightly cool dark — <div class="blob blob-ink3"></div> */
+.blob-ink3 {
+  position: fixed;
+  width: 460px;
+  height: 400px;
+  top: 35vh;
+  right: 15vw;
+  background: radial-gradient(circle at 45% 45%,
+    rgba(22, 20, 26, 0.90) 0%,
+    rgba(14, 12, 18, 0.70) 48%,
+    transparent 74%);
+  border-radius: 999px;
+  filter: blur(280px) brightness(1);
+  opacity: 0.60;
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform, filter, opacity;
+  animation:
+    blobDrift3  26s ease-in-out  infinite alternate,
+    blobGlow3   14s ease-in-out  infinite alternate,
+    blobSpin3   70s linear       infinite;
+  animation-delay: -11s, -6s, 0s;
+}
+
+/* Blob 4 — mid-left dark — <div class="blob blob-ink4"></div> */
+.blob-ink4 {
+  position: fixed;
+  width: 440px;
+  height: 380px;
+  top: 52vh;
+  left: 8vw;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(20, 18, 22, 0.88) 0%,
+    rgba(12, 10, 14, 0.68) 48%,
+    transparent 74%);
+  border-radius: 999px;
+  filter: blur(80px) brightness(1);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform, filter, opacity;
+  animation:
+    blobDrift4  19s ease-in-out  infinite alternate,
+    blobGlow4   9s  ease-in-out  infinite alternate,
+    blobSpin4   90s linear       infinite reverse;
+  animation-delay: -4s, -2s, 0s;
+}
+
+/* ---- Drift: modest 40–60px movement so blobs feel calm, not frantic ---- */
+@keyframes blobDrift1 {
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  33%  { transform: translate( 28px,  18px) scale(1.04); }
+  66%  { transform: translate( 14px,  42px) scale(0.97); }
+  100% { transform: translate( 48px,  26px) scale(1.05); }
+}
+@keyframes blobDrift2 {
+  0%   { transform: translate(   0px,   0px) scale(1.00); }
+  40%  { transform: translate( -32px,  22px) scale(1.05); }
+  70%  { transform: translate( -18px, -28px) scale(0.96); }
+  100% { transform: translate( -46px, -18px) scale(1.04); }
+}
+@keyframes blobDrift3 {
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  50%  { transform: translate(-28px,  36px) scale(1.06); }
+  100% { transform: translate( 18px,  54px) scale(0.95); }
+}
+@keyframes blobDrift4 {
+  0%   { transform: translate(  0px,   0px) scale(1.00); }
+  45%  { transform: translate( 36px, -18px) scale(1.04); }
+  100% { transform: translate( 54px, -36px) scale(0.97); }
+}
+
+/* ---- Slow spin — rotate the radial gradient for a swirling glow look ---- */
+@keyframes blobSpin1  { to { rotate: 360deg; } }
+@keyframes blobSpin2  { to { rotate: 360deg; } }
+@keyframes blobSpin3  { to { rotate: 360deg; } }
+@keyframes blobSpin4  { to { rotate: 360deg; } }
+
+/* ---- Glow pulse — brightness flickers subtly, opacity breathes ---- */
+@keyframes blobGlow1 {
+  0%   { filter: blur(72px) brightness(0.90); opacity: 0.62; }
+  50%  { filter: blur(64px) brightness(1.35); opacity: 0.80; }
+  100% { filter: blur(72px) brightness(0.90); opacity: 0.62; }
+}
+@keyframes blobGlow2 {
+  0%   { filter: blur(72px) brightness(0.85); opacity: 0.58; }
+  50%  { filter: blur(60px) brightness(1.40); opacity: 0.78; }
+  100% { filter: blur(72px) brightness(0.85); opacity: 0.58; }
+}
+@keyframes blobGlow3 {
+  0%   { filter: blur(80px) brightness(0.88); opacity: 0.52; }
+  50%  { filter: blur(68px) brightness(1.30); opacity: 0.72; }
+  100% { filter: blur(80px) brightness(0.88); opacity: 0.52; }
+}
+@keyframes blobGlow4 {
+  0%   { filter: blur(80px) brightness(0.92); opacity: 0.48; }
+  50%  { filter: blur(65px) brightness(1.25); opacity: 0.68; }
+  100% { filter: blur(80px) brightness(0.92); opacity: 0.48; }
+}
+
+/* ======== LAPTOP CANVAS — black ambient circle behind it ======== */
+/*
+  A radial dark glow sits behind the Three.js canvas and fades
+  in/out in sync with the canvas opacity (which JS already handles).
+  We piggyback on the same container.
+*/
+#laptop-canvas-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 55%;
+  height: 55%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(8, 6, 4, 0.62) 0%,
+    rgba(12, 10, 8, 0.38) 40%,
+    transparent 70%);
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 1;
+  /* inherits the parent's opacity so it fades with the canvas */
+}
+
+/* ======== NAVBAR — always visible floating dark pill ======== */
+.navbar {
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  /* NO hide on scroll — transform stays neutral always */
+  transform: none !important;
+  transition: none;
+}
+/* Override the JS .hidden class so it never actually hides */
+.navbar.hidden {
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.navbar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: auto;
+  position: relative;
+}
+
+/* Brand name — left of pill, outside it */
+.navbar-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* Dark pill containing nav links */
+.nav-links {
+  display: flex;
+  gap: 6px;
+  margin: 0 auto;
+  background: rgba(18, 16, 14, 0.84);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 100px;
+  padding: 8px 14px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.22),
+    0 1px 4px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: rgba(255, 255, 255, 0.52);
+  padding: 6px 14px;
+  border-radius: 100px;
+  position: relative;
+  transition: color 0.25s, background 0.25s;
+}
+.nav-links a::after { display: none; }
+.nav-links a:hover {
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.08);
+}
+.nav-links a.active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.hamburger span { background: var(--text-primary); }
+.mobile-nav {
+  background: rgba(244, 242, 239, 0.97);
+  backdrop-filter: blur(20px);
+}
+.mobile-nav a       { color: var(--text-secondary); }
+.mobile-nav a:hover { color: var(--text-primary); }
+
+#hero { padding-top: 80px; }
+
+/* ======== GLASS CARD — dark frosted ======== */
+.glass-card {
+  background: rgba(18, 16, 14, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Text inside dark glass cards needs to be light */
+.glass-card .section-label,
+.glass-card .profile-title,
+.glass-card .cert-issuer,
+.glass-card .why-desc,
+.glass-card .service-desc,
+.glass-card .about-text,
+.glass-card .about-text p,
+.glass-card .testimonial-text,
+.glass-card .testimonial-role,
+.glass-card .testimonial-stars {
+  color: rgba(255, 255, 255, 0.65);
+}
+.glass-card .profile-name,
+.glass-card .section-heading,
+.glass-card .service-name,
+.glass-card .cert-name,
+.glass-card .why-title,
+.glass-card .testimonial-author {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Profile card within glass */
+.profile-card {
+  background: rgba(18, 16, 14, 0.50);
+  color: rgba(255, 255, 255, 0.85);
+}
+.profile-name  { color: rgba(255, 255, 255, 0.95); }
+.profile-title { color: rgba(255, 255, 255, 0.55); }
+
+/* ======== HERO ======== */
+.hero-label       { color: var(--text-muted); }
+.hero-heading     { color: var(--text-primary); }
+.hero-sub         { color: var(--text-secondary); }
+.hero-socials a   { color: var(--text-muted); }
+.hero-socials a:hover { color: var(--text-primary); }
+.green-dot {
+  box-shadow:
+    0 0 4px var(--success),
+    0 0 10px rgba(var(--success-rgb), 0.5),
+    0 0 20px rgba(var(--success-rgb), 0.22);
+}
+#typewriter-text   { color: #16a34a; }
+.typewriter-cursor { color: #16a34a; }
+
+@keyframes letter-glow {
+  0%   { color: #16a34a; text-shadow: none; }
+  30%  { color: #4ade80; text-shadow: 0 0 10px rgba(22,163,74,0.60), 0 0 24px rgba(22,163,74,0.30); }
+  100% { color: #16a34a; text-shadow: 0 0 6px rgba(22,163,74,0.14); }
+}
+
+/* ======== BUTTONS ======== */
+.btn-primary       { background: var(--text-primary); color: #F4F2EF; }
+.btn-primary:hover { box-shadow: var(--hover-shadow); }
+.btn-secondary     { border-color: rgba(24,22,20,0.20); color: var(--text-primary); }
+.btn-secondary:hover { border-color: rgba(24,22,20,0.40); }
+.btn-download      { background: var(--text-primary); color: #F4F2EF; }
+.btn-download:hover { box-shadow: var(--hover-shadow); }
+.btn-submit        { background: var(--text-primary); color: #F4F2EF; }
+
+/* ======== SECTION TYPOGRAPHY ======== */
+.section-label   { color: var(--text-muted); }
+.section-heading { color: var(--text-primary); }
+.section-sub     { color: var(--text-secondary); }
+
+/* ======== SCROLL CHEVRON ======== */
+.scroll-indicator span { color: var(--text-muted); }
+.chevron-down {
+  border-right-color: rgba(24, 22, 20, 0.35);
+  border-bottom-color: rgba(24, 22, 20, 0.35);
+}
+
+/* ======== ABOUT ======== */
+.availability-badge {
+  color: var(--success);
+  border-color: rgba(var(--success-rgb), 0.25);
+  background: rgba(var(--success-rgb), 0.07);
+}
+.profile-img-wrap { border-color: rgba(255, 255, 255, 0.15); }
+.btn-profile-contact {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.btn-profile-contact:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* ======== SERVICES ======== */
+.service-card { color: rgba(255, 255, 255, 0.85); }
+.service-card:hover { border-color: rgba(255, 255, 255, 0.18); box-shadow: var(--hover-shadow); }
+.service-name { color: rgba(255, 255, 255, 0.95); }
+.service-desc { color: rgba(255, 255, 255, 0.62); }
+
+/* ======== SKILLS ======== */
+.skills-col h3   { color: var(--text-primary); }
+.skill-bar-label { color: var(--text-secondary); }
+.skill-bar-track { background: rgba(24, 22, 20, 0.12); }
+.skill-bar-fill  { background: var(--text-primary); }
+.pill-tag {
+  background: rgba(24, 22, 20, 0.05);
+  border-color: rgba(24, 22, 20, 0.12);
+  color: var(--text-secondary);
+}
+.pill-tag:hover { border-color: rgba(24, 22, 20, 0.26); background: rgba(24, 22, 20, 0.09); }
+.tools-section h3    { color: var(--text-primary); }
+.tool-card img       { border-color: rgba(24, 22, 20, 0.14); }
+.tool-card:hover img { border-color: rgba(24, 22, 20, 0.30); }
+.tool-card span      { color: var(--text-secondary); }
+
+/* ======== PORTFOLIO ======== */
+.project-card       { background-color: var(--bg-mid); border-color: rgba(24,22,20,0.10); }
+.project-card:hover { box-shadow: 0 20px 48px rgba(0,0,0,0.20); }
+.project-overlay {
+  background: linear-gradient(
+    to top,
+    var(--project-overlay-top) 0%,
+    var(--project-overlay-mid) 55%,
+    var(--project-overlay-end) 100%
+  );
+}
+.project-tag   { color: rgba(255,255,255,0.65); }
+.project-title { color: #ffffff; }
+.project-skills span {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.85);
+}
+.project-link { color: #ffffff; }
+.project-scroll-dot        { background: rgba(24,22,20,0.18); }
+.project-scroll-dot.active { background: var(--text-primary); border-color: var(--text-primary); }
+
+/* ======== PROJECT MODAL ======== */
+.project-modal-backdrop { background: rgba(12, 10, 8, 0.72); }
+.project-modal-close,
+.project-modal-nav {
+  color: rgba(255,255,255,0.90);
+  background: rgba(18, 16, 14, 0.82);
+  border-color: rgba(255,255,255,0.12);
+}
+.project-modal-close:hover,
+.project-modal-nav:hover {
+  background: rgba(28, 24, 20, 0.92);
+  border-color: rgba(255,255,255,0.28);
+}
+.project-modal-count   { color: rgba(255,255,255,0.55); }
+.project-modal-info h3 { color: rgba(255,255,255,0.95); }
+.project-modal-desc    { color: rgba(255,255,255,0.72); }
+
+/* ======== CERTIFICATIONS ======== */
+.cert-card { color: rgba(255,255,255,0.85); }
+.cert-name   { color: rgba(255,255,255,0.95); }
+.cert-issuer { color: rgba(255,255,255,0.52); }
+.cert-badge.earned   { background: rgba(var(--success-rgb),0.12); color: rgb(var(--success-rgb)); }
+.cert-badge.progress { background: rgba(var(--warning-rgb),0.12); color: rgb(var(--warning-rgb)); }
+.cert-badge.academic { background: rgba(var(--info-rgb),0.12);    color: rgb(var(--info-rgb)); }
+.certs-note          { color: rgba(255,255,255,0.45); }
+
+/* ======== WHY HIRE ME ======== */
+.why-card { color: rgba(255,255,255,0.85); }
+.why-card:hover { border-color: rgba(255,255,255,0.18); box-shadow: var(--hover-shadow); }
+.why-title { color: rgba(255,255,255,0.95); }
+.why-desc  { color: rgba(255,255,255,0.62); }
+
+/* ======== RESUME ======== */
+.resume-summary { color: var(--text-secondary); }
+.resume-note    { color: var(--text-muted); border-top-color: rgba(24,22,20,0.12); }
+
+/* ======== TESTIMONIALS ======== */
+.testimonial-card { color: rgba(255,255,255,0.85); }
+.testimonial-quote-mark { color: rgba(255,255,255,0.12); }
+.testimonial-text       { color: rgba(255,255,255,0.65); }
+.testimonial-author     { color: rgba(255,255,255,0.95); }
+.testimonial-role       { color: rgba(255,255,255,0.48); }
+.testimonial-stars      { color: var(--warning); }
+
+/* ======== CONTACT ======== */
+.contact-icon  { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
+.contact-label { color: rgba(255,255,255,0.48); }
+.contact-value { color: rgba(255,255,255,0.90); }
+.contact-value a:hover { color: #ffffff; }
+.form-group label { color: rgba(255,255,255,0.52); }
+.form-group input,
+.form-group textarea {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.90);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(255,255,255,0.32); }
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: rgba(255,255,255,0.30);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.10);
+}
+.form-note { color: rgba(255,255,255,0.40); }
+
+/* ======== FOOTER ======== */
+.site-footer { border-top-color: rgba(255,255,255,0.08); background: rgba(14,12,10,0.55); backdrop-filter: blur(16px); }
+.footer-name { color: rgba(255,255,255,0.92); }
+.footer-role { color: rgba(255,255,255,0.48); }
+.footer-links a       { color: rgba(255,255,255,0.48); }
+.footer-links a:hover { color: rgba(255,255,255,0.90); }
+.footer-social a {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.52);
+}
+.footer-social a:hover {
+  color: rgba(255,255,255,0.92);
+  border-color: rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.12);
+}
+.footer-copy { color: rgba(255,255,255,0.36); border-top-color: rgba(255,255,255,0.07); }
+
+/* ======== SCROLL TOP ======== */
+.scroll-top {
+  background: rgba(18, 16, 14, 0.72);
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.85);
+  box-shadow: var(--card-shadow);
+}
+.scroll-top:hover { background: rgba(28, 24, 20, 0.88); }
+
+/* ======== SCROLL PROGRESS INDICATOR ======== */
+.scroll-progress-track { background: rgba(24,22,20,0.12); }
+.scroll-progress-bar   { background: var(--text-primary); box-shadow: 0 0 8px rgba(24,22,20,0.30); }
+.scroll-dot            { background: rgba(24,22,20,0.18); }
+.scroll-dot.active     { background: var(--text-primary); box-shadow: 0 0 8px rgba(24,22,20,0.45); }
+
+/* ======== SECTION BACKGROUNDS — semi-transparent warm tint ======== */
+/*
+  Each section gets a very light warm wash so content stays
+  readable but the dark blobs underneath bleed through clearly.
+*/
+#hero           { background: transparent; }
+#about          { background: rgba(244, 242, 239, 0.45); backdrop-filter: blur(2px); }
+#services       { background: transparent; }
+#skills         { background: rgba(244, 242, 239, 0.42); backdrop-filter: blur(2px); }
+#portfolio      { background: transparent; }
+#certifications { background: rgba(244, 242, 239, 0.42); backdrop-filter: blur(2px); }
+#why-me         { background: transparent; }
+#resume         { background: rgba(244, 242, 239, 0.42); backdrop-filter: blur(2px); }
+#testimonials   { background: transparent; }
+#contact        { background: rgba(244, 242, 239, 0.42); backdrop-filter: blur(2px); }
+
+/* ======== ACCESSIBILITY: reduced-motion ======== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .stagger-child, .skill-bar-fill,
+  .premium-bg::before, .premium-bg::after,
+  .blob-ink3, .blob-ink4 {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: blur(72px) !important;
+    animation: none !important;
+  }
+}

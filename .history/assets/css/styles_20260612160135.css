@@ -1240,3 +1240,102 @@ body.project-modal-open #laptop-canvas-container {
 .scroll-dot:hover::after {
   display: none;
 }
+
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-100px, -100px);
+  /* offset so center of dot is at mouse point */
+  margin-left: -6px;
+  margin-top: -6px;
+}
+
+#custom-cursor.hidden { opacity: 0; }
+
+/* Base dot */
+.cursor-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
+  transition:
+    width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-radius 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease,
+    background 0.25s ease;
+}
+
+/* Zoom ring — hidden by default */
+.cursor-zoom-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(74, 222, 128, 0.5);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+
+/* Moving — glow */
+#custom-cursor.moving .cursor-dot {
+  box-shadow:
+    0 0 8px rgba(74, 222, 128, 0.8),
+    0 0 20px rgba(74, 222, 128, 0.35);
+}
+
+/* Hover state — bigger dot */
+#custom-cursor.state-hover .cursor-dot {
+  width: 18px;
+  height: 18px;
+  background: #86efac;
+  box-shadow:
+    0 0 10px rgba(74, 222, 128, 0.9),
+    0 0 24px rgba(74, 222, 128, 0.4);
+}
+
+/* Text state — tall thin bar like | */
+#custom-cursor.state-text .cursor-dot {
+  width: 2px;
+  height: 20px;
+  border-radius: 2px;
+  background: #4ade80;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
+  margin-left: 4px; /* re-center the thin bar */
+}
+
+/* Zoom state — dot + ring = magnifier feel */
+#custom-cursor.state-zoom .cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+}
+#custom-cursor.state-zoom .cursor-zoom-ring {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  animation: zoom-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes zoom-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.5; }
+  50%       { transform: translate(-50%, -50%) scale(1.35); opacity: 1;   }
+}
+
+/* Click press */
+#custom-cursor.pressing .cursor-dot {
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 14px rgba(74, 222, 128, 1);
+}
+#custom-cursor.state-hover.pressing .cursor-dot {
+  width: 14px;
+  height: 14px;
+}

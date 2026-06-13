@@ -1,0 +1,621 @@
+/* ============================================
+   PORTFOLIO — Light Mode Stylesheet
+   Drop this file AFTER your main styles.css
+   to override all design tokens and components.
+   ============================================ */
+
+/* ---- Light Mode Design Tokens ---- */
+:root {
+  /* Raw RGB values for compositing */
+  --color-black-rgb: 0, 0, 0;
+  --color-white-rgb: 255, 255, 255;
+
+  /* Surface stack — warm off-whites, not harsh pure white */
+  --bg-deepest-rgb: 248, 248, 250;   /* #F8F8FA — faintest off-white canvas */
+  --bg-dark-rgb:    243, 243, 246;   /* #F3F3F6 — subtle section contrast */
+  --bg-mid-rgb:     238, 238, 242;   /* #EEEEF2 — card wells */
+  --bg-surface-rgb: 200, 200, 210;   /* used for grid lines / dividers */
+
+  --bg-deepest:  #F8F8FA;
+  --bg-dark:     #F3F3F6;
+  --bg-mid:      #EEEEF2;
+  --bg-surface:  #E4E4E8;
+
+  /* Grays — kept distinct so hierarchy is clear */
+  --gray-1:  #ECECEF;
+  --gray-2:  #F0F0F3;
+  --gray-3:  #F5F5F7;
+  --gray-4:  #FAFAFA;
+
+  /* Text — dark but not black; readable, warm-neutral */
+  --text-primary-rgb:   22, 22, 28;   /* #16161C */
+  --text-secondary-rgb: 80, 80, 96;   /* #505060 */
+  --text-muted-rgb:     148, 148, 164; /* #9494A4 */
+
+  --text-primary:   #16161C;
+  --text-secondary: #505060;
+  --text-muted:     #9494A4;
+
+  /* Accent — keep the portfolio's personality intact */
+  --accent:          #16161C;   /* dark ink for primary actions */
+  --accent-glow:     rgba(22, 22, 28, 0.04);
+
+  /* Semantic colors — slightly adjusted for light backgrounds */
+  --success-rgb: 22, 163, 74;
+  --warning-rgb: 202, 138, 4;
+  --info-rgb:    37, 99, 235;
+  --error-rgb:   220, 38, 38;
+
+  --success: rgb(var(--success-rgb));
+  --warning: rgb(var(--warning-rgb));
+  --info:    rgb(var(--info-rgb));
+  --error:   rgb(var(--error-rgb));
+
+  /* Surfaces — gentle glassy layers */
+  --surface-glass:  rgba(255, 255, 255, 0.60);
+  --surface-soft:   rgba(255, 255, 255, 0.72);
+  --surface-medium: rgba(255, 255, 255, 0.85);
+  --surface-strong: rgba(22, 22, 28, 0.06);
+
+  /* Borders — hairline strokes for light mode */
+  --border:        rgba(22, 22, 28, 0.08);
+  --border-soft:   rgba(22, 22, 28, 0.06);
+  --border-hover:  rgba(22, 22, 28, 0.22);
+  --border-strong: rgba(22, 22, 28, 0.30);
+
+  /* Shadows — where depth comes from in light mode */
+  --card-shadow:   0 1px 3px rgba(22, 22, 28, 0.06), 0 4px 16px rgba(22, 22, 28, 0.06);
+  --hover-shadow:  0 4px 20px rgba(22, 22, 28, 0.12);
+
+  /* Project overlay — still dark so text stays legible over cover images */
+  --project-overlay-top: rgba(10, 10, 16, 0.92);
+  --project-overlay-mid: rgba(10, 10, 16, 0.55);
+  --project-overlay-end: rgba(10, 10, 16, 0.08);
+
+  /* Three.js colors */
+  --three-light:           #e0e0e8;
+  --three-laptop-base:     #d0d0d8;
+  --three-laptop-keyboard: #b8b8c4;
+  --three-laptop-trackpad: #c8c8d0;
+  --three-screen:          #f0f0f4;
+  --three-screen-glow:     #dde4f8;
+  --three-excel:           #107c41;
+  --three-gsheet:          #0f9d58;
+}
+
+/* ======== BASE ======== */
+body {
+  background: var(--bg-deepest);
+  color: var(--text-secondary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ======== PREMIUM BACKGROUND ======== */
+.premium-bg {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(200, 200, 215, 0.28) 0%, transparent 55%),
+    linear-gradient(160deg, #F8F8FA 0%, #F3F3F6 50%, #F8F8FA 100%);
+}
+
+.perspective-grid {
+  background-image:
+    linear-gradient(rgba(var(--bg-surface-rgb), 0.55) 0.8px, transparent 0.8px),
+    linear-gradient(90deg, rgba(var(--bg-surface-rgb), 0.55) 0.8px, transparent 0.8px);
+  opacity: 0.5;
+  filter: none;
+}
+
+.perspective-grid::after {
+  background: radial-gradient(
+    circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+    rgba(var(--text-secondary-rgb), 0.06),
+    transparent 24%
+  );
+}
+
+.bg-glow {
+  opacity: 0.18;
+}
+
+/* ======== NAVBAR ======== */
+.navbar {
+  background: rgba(248, 248, 250, 0.88);
+  border-bottom: 1px solid var(--border-soft);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.navbar-name {
+  color: var(--text-primary);
+}
+
+.nav-links a {
+  color: var(--text-muted);
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--text-primary);
+}
+.nav-links a::after {
+  background: var(--text-primary);
+}
+
+.hamburger span {
+  background: var(--text-primary);
+}
+
+.mobile-nav {
+  background: rgba(248, 248, 250, 0.97);
+}
+.mobile-nav a {
+  color: var(--text-secondary);
+}
+.mobile-nav a:hover {
+  color: var(--text-primary);
+}
+
+/* ======== GLASS CARD ======== */
+.glass-card {
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ======== HERO ======== */
+.hero-label {
+  color: var(--text-muted);
+}
+
+.green-dot {
+  box-shadow:
+    0 0 4px var(--success),
+    0 0 10px rgba(var(--success-rgb), 0.5),
+    0 0 20px rgba(var(--success-rgb), 0.25);
+}
+
+.hero-heading {
+  color: var(--text-primary);
+}
+
+.hero-sub {
+  color: var(--text-secondary);
+}
+
+.hero-socials a {
+  color: var(--text-muted);
+}
+.hero-socials a:hover {
+  color: var(--text-primary);
+}
+
+/* Typewriter cursor keeps green */
+#typewriter-text { color: #16a34a; }
+.typewriter-cursor { color: #16a34a; }
+
+@keyframes letter-glow {
+  0%   { color: #16a34a; text-shadow: none; }
+  30%  { color: #15803d; text-shadow: 0 0 10px rgba(22,163,74,0.6), 0 0 24px rgba(22,163,74,0.3); }
+  100% { color: #16a34a; text-shadow: 0 0 6px rgba(22,163,74,0.15); }
+}
+
+/* ======== BUTTONS ======== */
+.btn-primary {
+  background: var(--text-primary);
+  color: #F8F8FA;
+}
+.btn-primary:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+.btn-secondary {
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+.btn-secondary:hover {
+  border-color: var(--border-hover);
+}
+
+.btn-download {
+  background: var(--text-primary);
+  color: #F8F8FA;
+}
+.btn-download:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+.btn-submit {
+  background: var(--text-primary);
+  color: #F8F8FA;
+}
+
+/* ======== SECTION TYPOGRAPHY ======== */
+.section-label {
+  color: var(--text-muted);
+}
+
+.section-heading {
+  color: var(--text-primary);
+}
+
+.section-sub {
+  color: var(--text-secondary);
+}
+
+/* ======== ABOUT ======== */
+.profile-card {
+  background: var(--surface-soft);
+}
+
+.profile-name {
+  color: var(--text-primary);
+}
+
+.profile-title {
+  color: var(--text-muted);
+}
+
+.availability-badge {
+  color: var(--success);
+  border-color: rgba(var(--success-rgb), 0.25);
+  background: rgba(var(--success-rgb), 0.06);
+}
+
+.profile-img-wrap {
+  border-color: var(--border);
+}
+
+.btn-profile-contact {
+  color: var(--text-primary);
+  background: rgba(22, 22, 28, 0.04);
+  border-color: var(--border);
+}
+.btn-profile-contact:hover {
+  background: rgba(22, 22, 28, 0.08);
+  border-color: var(--border-hover);
+}
+
+/* ======== SERVICES ======== */
+.service-card:hover {
+  border-color: rgba(22, 22, 28, 0.18);
+  box-shadow: var(--hover-shadow);
+}
+
+.service-name {
+  color: var(--text-primary);
+}
+.service-desc {
+  color: var(--text-secondary);
+}
+
+/* ======== SKILLS ======== */
+.skills-col h3 {
+  color: var(--text-primary);
+}
+
+.skill-bar-label {
+  color: var(--text-secondary);
+}
+
+.skill-bar-track {
+  background: rgba(22, 22, 28, 0.08);
+}
+
+.skill-bar-fill {
+  background: var(--text-primary);
+}
+
+.pill-tag {
+  background: rgba(22, 22, 28, 0.04);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+.pill-tag:hover {
+  border-color: var(--border-hover);
+  background: rgba(22, 22, 28, 0.07);
+}
+
+/* Tools */
+.tools-section h3 {
+  color: var(--text-primary);
+}
+
+.tool-card img {
+  border-color: rgba(22, 22, 28, 0.12);
+}
+.tool-card:hover img {
+  border-color: rgba(22, 22, 28, 0.28);
+}
+.tool-card span {
+  color: var(--text-secondary);
+}
+
+/* ======== PORTFOLIO ======== */
+.project-card {
+  background-color: var(--bg-mid);
+  border-color: var(--border);
+}
+
+.project-card:hover {
+  box-shadow: 0 20px 48px rgba(22, 22, 28, 0.14);
+}
+
+/* Overlay stays dark — it sits over cover images */
+.project-overlay {
+  background: linear-gradient(
+    to top,
+    var(--project-overlay-top) 0%,
+    var(--project-overlay-mid) 55%,
+    var(--project-overlay-end) 100%
+  );
+}
+
+.project-tag {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.project-title {
+  color: #ffffff;
+}
+
+.project-skills span {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.project-link {
+  color: #ffffff;
+}
+
+/* Scroll dots */
+.project-scroll-dot {
+  background: rgba(22, 22, 28, 0.15);
+}
+.project-scroll-dot.active {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+/* ======== PROJECT MODAL ======== */
+.project-modal-backdrop {
+  background: rgba(22, 22, 28, 0.72);
+}
+
+.project-modal-close,
+.project-modal-nav {
+  color: var(--text-primary);
+  background: rgba(248, 248, 250, 0.88);
+  border-color: var(--border);
+}
+.project-modal-close:hover,
+.project-modal-nav:hover {
+  background: rgba(248, 248, 250, 0.98);
+  border-color: var(--border-hover);
+}
+
+.project-modal-count {
+  color: var(--text-muted);
+}
+.project-modal-info h3 {
+  color: var(--text-primary);
+}
+.project-modal-desc {
+  color: var(--text-secondary);
+}
+
+/* ======== CERTIFICATIONS ======== */
+.cert-name {
+  color: var(--text-primary);
+}
+.cert-issuer {
+  color: var(--text-muted);
+}
+
+.cert-badge.earned {
+  background: rgba(var(--success-rgb), 0.10);
+  color: rgb(var(--success-rgb));
+}
+.cert-badge.progress {
+  background: rgba(var(--warning-rgb), 0.10);
+  color: rgb(var(--warning-rgb));
+}
+.cert-badge.academic {
+  background: rgba(var(--info-rgb), 0.10);
+  color: rgb(var(--info-rgb));
+}
+
+.certs-note {
+  color: var(--text-muted);
+}
+
+/* ======== WHY HIRE ME ======== */
+.why-card:hover {
+  border-color: rgba(22, 22, 28, 0.18);
+  box-shadow: var(--hover-shadow);
+}
+
+.why-title {
+  color: var(--text-primary);
+}
+.why-desc {
+  color: var(--text-secondary);
+}
+
+/* ======== RESUME ======== */
+.resume-summary {
+  color: var(--text-secondary);
+}
+
+.resume-note {
+  color: var(--text-muted);
+  border-top-color: var(--border);
+}
+
+/* ======== TESTIMONIALS ======== */
+.testimonial-quote-mark {
+  color: rgba(22, 22, 28, 0.12);
+}
+
+.testimonial-text {
+  color: var(--text-secondary);
+}
+
+.testimonial-author {
+  color: var(--text-primary);
+}
+
+.testimonial-role {
+  color: var(--text-muted);
+}
+
+.testimonial-stars {
+  color: var(--warning);
+}
+
+/* ======== CONTACT ======== */
+.contact-icon {
+  background: rgba(22, 22, 28, 0.04);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.contact-label {
+  color: var(--text-muted);
+}
+
+.contact-value {
+  color: var(--text-primary);
+}
+
+.form-group label {
+  color: var(--text-muted);
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.80);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 3px rgba(22, 22, 28, 0.06);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.form-note {
+  color: var(--text-muted);
+}
+
+/* ======== FOOTER ======== */
+.site-footer {
+  border-top-color: var(--border);
+  background: var(--bg-dark);
+}
+
+.footer-name {
+  color: var(--text-primary);
+}
+.footer-role {
+  color: var(--text-muted);
+}
+
+.footer-links a {
+  color: var(--text-muted);
+}
+.footer-links a:hover {
+  color: var(--text-primary);
+}
+
+.footer-social a {
+  background: rgba(22, 22, 28, 0.04);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+.footer-social a:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  background: rgba(22, 22, 28, 0.08);
+}
+
+.footer-copy {
+  color: var(--text-muted);
+  border-top-color: var(--border);
+}
+
+/* ======== SCROLL TOP ======== */
+.scroll-top {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: var(--border);
+  color: var(--text-primary);
+  box-shadow: var(--card-shadow);
+}
+.scroll-top:hover {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+/* ======== SCROLL PROGRESS INDICATOR ======== */
+.scroll-progress-track {
+  background: rgba(22, 22, 28, 0.10);
+}
+
+.scroll-progress-bar {
+  background: var(--text-primary);
+  box-shadow: 0 0 8px rgba(22, 22, 28, 0.30);
+}
+
+.scroll-dot {
+  background: rgba(22, 22, 28, 0.18);
+}
+.scroll-dot.active {
+  background: var(--text-primary);
+  box-shadow: 0 0 8px rgba(22, 22, 28, 0.45);
+}
+
+/* ======== SCROLL INDICATOR (hero chevron) ======== */
+.scroll-indicator span {
+  color: var(--text-muted);
+}
+
+.chevron-down {
+  border-right-color: var(--text-muted);
+  border-bottom-color: var(--text-muted);
+}
+
+/* ======== SECTION DIVIDERS
+   Subtle alternating backgrounds on sections
+   give the page rhythm without dark cards ======== */
+#about   { background: var(--bg-deepest); }
+#services { background: var(--bg-dark); }
+#skills  { background: var(--bg-deepest); }
+#portfolio { background: var(--bg-dark); }
+#certifications { background: var(--bg-deepest); }
+#why-me  { background: var(--bg-dark); }
+#resume  { background: var(--bg-deepest); }
+#testimonials { background: var(--bg-dark); }
+#contact { background: var(--bg-deepest); }
+
+/* ======== STAGGER/REVEAL — preserve animations ======== */
+/* All existing animation classes work unchanged;
+   only the colors beneath them have changed.     */
+
+/* ======== ACCESSIBILITY: reduced-motion ======== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .stagger-child,
+  .skill-bar-fill {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}

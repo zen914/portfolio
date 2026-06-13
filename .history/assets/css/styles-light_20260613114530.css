@@ -1,0 +1,601 @@
+/* ============================================
+   PORTFOLIO — Light Mode Stylesheet (v5)
+   Drop this AFTER your main styles.css
+   ============================================ */
+
+/* ---- Design Tokens ---- */
+:root {
+  --color-black-rgb: 0, 0, 0;
+  --color-white-rgb: 255, 255, 255;
+
+  --bg-deepest-rgb: 244, 242, 239;
+  --bg-dark-rgb:    238, 235, 231;
+  --bg-mid-rgb:     232, 228, 224;
+  --bg-surface-rgb: 190, 187, 183;
+
+  --bg-deepest: #F4F2EF;
+  --bg-dark:    #EEEBE7;
+  --bg-mid:     #E8E4E0;
+  --bg-surface: #BEBBB7;
+
+  --gray-1: #E9E6E2;
+  --gray-2: #EDEBE7;
+  --gray-3: #F1EFEC;
+  --gray-4: #F7F6F4;
+
+  --text-primary-rgb:   24, 22, 20;
+  --text-secondary-rgb: 70, 66, 62;
+  --text-muted-rgb:     148, 143, 138;
+
+  /* Dark ink — used everywhere on the light page */
+  --text-primary:   #181614;
+  --text-secondary: #46423e;
+  --text-muted:     #948F8A;
+
+  --accent:      #181614;
+  --accent-glow: rgba(24, 22, 20, 0.04);
+
+  --success-rgb: 22, 163, 74;
+  --warning-rgb: 202, 138, 4;
+  --info-rgb:    37, 99, 235;
+  --error-rgb:   220, 38, 38;
+
+  --success: rgb(var(--success-rgb));
+  --warning: rgb(var(--warning-rgb));
+  --info:    rgb(var(--info-rgb));
+  --error:   rgb(var(--error-rgb));
+
+  /*
+    Surfaces: matte solid darks for cards.
+    No blur/glass — solid opaque panels.
+  */
+  --surface-glass:  #1C1A18;
+  --surface-soft:   #1C1A18;
+  --surface-medium: #222018;
+  --surface-strong: #2A2824;
+
+  /* Borders on dark cards = subtle light lines */
+  --border:        rgba(255, 255, 255, 0.09);
+  --border-soft:   rgba(255, 255, 255, 0.06);
+  --border-hover:  rgba(255, 255, 255, 0.20);
+  --border-strong: rgba(255, 255, 255, 0.28);
+
+  --card-shadow:  0 2px 8px rgba(0,0,0,0.22), 0 8px 32px rgba(0,0,0,0.18);
+  --hover-shadow: 0 8px 32px rgba(0,0,0,0.32);
+
+  --project-overlay-top: rgba(8, 8, 12, 0.93);
+  --project-overlay-mid: rgba(8, 8, 12, 0.56);
+  --project-overlay-end: rgba(8, 8, 12, 0.08);
+
+  --three-light:           #dedad6;
+  --three-laptop-base:     #ccc8c4;
+  --three-laptop-keyboard: #b4b0ac;
+  --three-laptop-trackpad: #c4c0bc;
+  --three-screen:          #eeeae6;
+  --three-screen-glow:     #dde4f8;
+  --three-excel:           #107c41;
+  --three-gsheet:          #0f9d58;
+}
+
+/* ======== SCROLLBAR ======== */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(24, 22, 20, 0.22) transparent;
+}
+html::-webkit-scrollbar       { width: 5px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb {
+  background: rgba(24, 22, 20, 0.20);
+  border-radius: 99px;
+}
+html::-webkit-scrollbar-thumb:hover { background: rgba(24, 22, 20, 0.36); }
+
+/* ======== BASE ======== */
+body {
+  background: var(--bg-deepest);
+  color: var(--text-secondary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ======== PREMIUM BACKGROUND ======== */
+/*
+  Four dark blobs, one in each corner, very heavily blurred so they
+  scatter softly across the page. position: fixed means they stay in
+  place while the page scrolls — natural parallax with zero JS.
+  Only the glow pulse animates; position is static so they don't drift.
+*/
+.premium-bg {
+  background: transparent;
+  overflow: visible;
+}
+.perspective-grid { display: none; }
+.bg-glow          { display: none; }
+
+/* Shared blob base — pseudo-elements for top-left & bottom-right */
+.premium-bg::before,
+.premium-bg::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  will-change: filter, opacity;
+}
+
+/* Blob 1 — top-left corner */
+.premium-bg::before {
+  width: 700px;
+  height: 700px;
+  top: -200px;
+  left: -200px;
+  background: radial-gradient(circle at 60% 60%,
+    rgb(7, 94, 129)    0%,
+    rgba(7, 34, 92, 0.85) 40%,
+    transparent            75%);
+  filter: blur(100px);
+  opacity: 0.72;
+  animation: blobGlow1 9s ease-in-out infinite alternate;
+}
+
+/* Blob 2 — bottom-right corner */
+.premium-bg::after {
+  width: 720px;
+  height: 720px;
+  bottom: -210px;
+  right: -210px;
+  background: radial-gradient(circle at 40% 40%,
+    rgb(13, 83, 116)    0%,
+    rgba(9, 54, 122, 0.82) 40%,
+    transparent            75%);
+  filter: blur(100px);
+  opacity: 0.68;
+  animation: blobGlow2 12s ease-in-out infinite alternate;
+  animation-delay: -5s;
+}
+
+/*
+  Blob 3 — top-right corner
+  HTML: <div class="blob blob-tr"></div> inside .premium-bg
+*/
+.blob-tr {
+  position: fixed;
+  width: 680px;
+  height: 680px;
+  top: -190px;
+  right: -190px;
+  background: radial-gradient(circle at 35% 65%,
+    rgb(10, 131, 121)    0%,
+    rgba(10, 49, 133, 0.8) 40%,
+    transparent            75%);
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.60;
+  pointer-events: none;
+  z-index: -1;
+  will-change: filter, opacity;
+  animation: blobGlow3 15s ease-in-out infinite alternate;
+  animation-delay: -8s;
+}
+
+/*
+  Blob 4 — bottom-left corner
+  HTML: <div class="blob blob-bl"></div> inside .premium-bg
+*/
+.blob-bl {
+  position: fixed;
+  width: 660px;
+  height: 660px;
+  bottom: -190px;
+  left: -190px;
+  background: radial-gradient(circle at 65% 35%,
+    rgb(6, 94, 86)    0%,
+    rgba(10, 74, 117, 0.78) 40%,
+    transparent            75%);
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.58;
+  pointer-events: none;
+  z-index: -1;
+  will-change: filter, opacity;
+  animation: blobGlow4 11s ease-in-out infinite alternate;
+  animation-delay: -3s;
+}
+
+/* Glow pulse: blur tightens and opacity lifts on the bright phase */
+@keyframes blobGlow1 {
+  0%   { filter: blur(100px); opacity: 0.60; }
+  50%  { filter: blur(385px);  opacity: 0.82; }
+  100% { filter: blur(100px); opacity: 0.60; }
+}
+@keyframes blobGlow2 {
+  0%   { filter: blur(100px); opacity: 0.55; }
+  50%  { filter: blur(320px);  opacity: 0.78; }
+  100% { filter: blur(100px); opacity: 0.55; }
+}
+@keyframes blobGlow3 {
+  0%   { filter: blur(110px); opacity: 0.48; }
+  50%  { filter: blur(300px);  opacity: 0.70; }
+  100% { filter: blur(110px); opacity: 0.48; }
+}
+@keyframes blobGlow4 {
+  0%   { filter: blur(110px); opacity: 0.45; }
+  50%  { filter: blur(380px);  opacity: 0.68; }
+  100% { filter: blur(110px); opacity: 0.45; }
+}
+
+/* ======== LAPTOP — ambient black circle ======== */
+#laptop-canvas-container::before {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(6, 4, 2, 0.55)  0%,
+    rgba(10, 8, 4, 0.30) 45%,
+    transparent          72%);
+  filter: blur(52px);
+  pointer-events: none;
+  z-index: 1;
+  /* inherits parent opacity, so it fades with the canvas */
+}
+
+/* ======== NAVBAR — always-visible floating dark pill ======== */
+.navbar {
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transform: none !important;
+  transition: none;
+}
+.navbar.hidden {
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.navbar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: auto;
+  position: relative;
+}
+
+/* Brand — left, outside the pill */
+.navbar-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* Dark pill */
+.nav-links {
+  display: flex;
+  gap: 4px;
+  margin: 0 auto;
+  background: rgba(18, 16, 14, 0.86);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 100px;
+  padding: 8px 14px;
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.24),
+    0 1px 4px rgba(0,0,0,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: rgba(255,255,255,0.52);
+  padding: 6px 14px;
+  border-radius: 100px;
+  transition: color 0.25s, background 0.25s;
+}
+.nav-links a::after { display: none; }
+.nav-links a:hover  { color: rgba(255,255,255,0.92); background: rgba(255,255,255,0.08); }
+.nav-links a.active { color: #fff; background: rgba(255,255,255,0.13); }
+
+.hamburger span { background: var(--text-primary); }
+.mobile-nav {
+  background: rgba(244,242,239,0.97);
+  backdrop-filter: blur(20px);
+}
+.mobile-nav a       { color: var(--text-secondary); }
+.mobile-nav a:hover { color: var(--text-primary); }
+
+#hero { padding-top: 80px; }
+
+/* ======== GLASS CARD — matte solid dark ======== */
+/*
+  Solid dark panel, no blur, no transparency.
+  All text inside uses light colours.
+*/
+.glass-card {
+  background: #1C1A18;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.28), 0 8px 40px rgba(0,0,0,0.22);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ======== SECTION TYPOGRAPHY ======== */
+/* These sit on the light page background — keep dark ink */
+.section-label   { color: var(--text-muted); }
+.section-heading { color: var(--text-primary); }
+.section-sub     { color: var(--text-secondary); }
+
+/* ======== HERO ======== */
+.hero-label       { color: var(--text-muted); }
+.hero-heading     { color: var(--text-primary); }
+.hero-sub         { color: var(--text-secondary); }
+.hero-socials a   { color: var(--text-muted); }
+.hero-socials a:hover { color: var(--text-primary); }
+.green-dot {
+  box-shadow:
+    0 0 4px var(--success),
+    0 0 10px rgba(var(--success-rgb), 0.5),
+    0 0 20px rgba(var(--success-rgb), 0.22);
+}
+#typewriter-text   { color: #16a34a; }
+.typewriter-cursor { color: #16a34a; }
+@keyframes letter-glow {
+  0%   { color: #16a34a; text-shadow: none; }
+  30%  { color: #4ade80; text-shadow: 0 0 10px rgba(22,163,74,0.60), 0 0 24px rgba(22,163,74,0.30); }
+  100% { color: #16a34a; text-shadow: 0 0 6px rgba(22,163,74,0.14); }
+}
+
+/* ======== SCROLL CHEVRON ======== */
+.scroll-indicator span { color: var(--text-muted); }
+.chevron-down {
+  border-right-color: rgba(24,22,20,0.35);
+  border-bottom-color: rgba(24,22,20,0.35);
+}
+
+/* ======== BUTTONS ======== */
+.btn-primary       { background: #181614; color: #F4F2EF; }
+.btn-primary:hover { box-shadow: var(--hover-shadow); }
+.btn-secondary     { border-color: rgba(24,22,20,0.22); color: var(--text-primary); }
+.btn-secondary:hover { border-color: rgba(24,22,20,0.44); }
+.btn-download      { background: #181614; color: #F4F2EF; }
+.btn-download:hover { box-shadow: var(--hover-shadow); }
+.btn-submit        { background: #181614; color: #F4F2EF; }
+
+/* ======== ABOUT ======== */
+/*
+  Profile card is a .glass-card so it's dark — light text.
+  The about-text column sits on the light page — dark text.
+*/
+.profile-name  { color: rgba(255,255,255,0.95); }
+.profile-title { color: rgba(255,255,255,0.52); }
+.profile-img-wrap { border-color: rgba(255,255,255,0.14); }
+.availability-badge {
+  color: var(--success);
+  border-color: rgba(var(--success-rgb),0.28);
+  background: rgba(var(--success-rgb),0.10);
+}
+.btn-profile-contact {
+  color: rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.13);
+}
+.btn-profile-contact:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.26);
+}
+/* About body text — sits on light background */
+.about-text p { color: var(--text-secondary); }
+
+/* ======== SERVICES ======== */
+/* Service cards are .glass-card — light text inside dark panel */
+.service-card { color: rgba(255,255,255,0.85); }
+.service-card:hover { border-color: rgba(255,255,255,0.18); box-shadow: var(--hover-shadow); }
+.service-name { color: rgba(255,255,255,0.95); }
+.service-desc { color: rgba(255,255,255,0.60); }
+.service-icon { color: rgba(255,255,255,0.85); }
+
+/* ======== SKILLS ======== */
+/* Skills section sits on light background */
+.skills-col h3   { color: var(--text-primary); }
+.skill-bar-label { color: var(--text-secondary); }
+.skill-bar-track { background: rgba(24,22,20,0.10); }
+.skill-bar-fill  { background: var(--text-primary); }
+.pill-tag {
+  background: rgba(24,22,20,0.05);
+  border-color: rgba(24,22,20,0.12);
+  color: var(--text-secondary);
+}
+.pill-tag:hover { border-color: rgba(24,22,20,0.28); background: rgba(24,22,20,0.09); }
+.tools-section h3    { color: var(--text-primary); }
+.tool-card img       { border-color: rgba(24,22,20,0.14); }
+.tool-card:hover img { border-color: rgba(24,22,20,0.30); }
+.tool-card span      { color: var(--text-secondary); }
+
+/* ======== PORTFOLIO ======== */
+.project-card       { background-color: var(--bg-mid); border-color: rgba(24,22,20,0.10); }
+.project-card:hover { box-shadow: 0 20px 48px rgba(0,0,0,0.20); }
+.project-overlay {
+  background: linear-gradient(
+    to top,
+    var(--project-overlay-top) 0%,
+    var(--project-overlay-mid) 55%,
+    var(--project-overlay-end) 100%
+  );
+}
+/* Text inside overlay is always on dark background */
+.project-tag   { color: rgba(255,255,255,0.65); }
+.project-title { color: #ffffff; }
+.project-skills span {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.85);
+}
+.project-link { color: #ffffff; }
+.project-scroll-dot        { background: rgba(24,22,20,0.18); }
+.project-scroll-dot.active { background: var(--text-primary); border-color: var(--text-primary); }
+
+/* ======== PROJECT MODAL ======== */
+.project-modal-backdrop { background: rgba(10,8,6,0.74); }
+.project-modal-close,
+.project-modal-nav {
+  color: rgba(255,255,255,0.90);
+  background: rgba(20,18,14,0.84);
+  border-color: rgba(255,255,255,0.12);
+}
+.project-modal-close:hover,
+.project-modal-nav:hover {
+  background: rgba(28,24,20,0.94);
+  border-color: rgba(255,255,255,0.28);
+}
+/* Modal info sits on dark backdrop */
+.project-modal-count   { color: rgba(255,255,255,0.52); }
+.project-modal-info h3 { color: rgba(255,255,255,0.95); }
+.project-modal-desc    { color: rgba(255,255,255,0.70); }
+
+/* ======== CERTIFICATIONS ======== */
+/* Cert cards are .glass-card (dark panel) — light text */
+.cert-card   { color: rgba(255,255,255,0.85); }
+.cert-name   { color: rgba(255,255,255,0.95); }
+.cert-issuer { color: rgba(255,255,255,0.50); }
+.cert-badge.earned   { background: rgba(var(--success-rgb),0.14); color: rgb(var(--success-rgb)); }
+.cert-badge.progress { background: rgba(var(--warning-rgb),0.14); color: rgb(var(--warning-rgb)); }
+.cert-badge.academic { background: rgba(var(--info-rgb),0.14);    color: rgb(var(--info-rgb)); }
+/* certs-note sits on light page, not on a card */
+.certs-note  { color: var(--text-muted); }
+
+/* ======== WHY HIRE ME ======== */
+/* Why cards are .glass-card (dark panel) — light text */
+.why-card  { color: rgba(255,255,255,0.85); }
+.why-card:hover { border-color: rgba(255,255,255,0.18); box-shadow: var(--hover-shadow); }
+.why-icon  { color: rgba(255,255,255,0.85); }
+.why-title { color: rgba(255,255,255,0.95); }
+.why-desc  { color: rgba(255,255,255,0.60); }
+
+/* ======== RESUME ======== */
+/* Resume section sits on light background — dark ink */
+.resume-summary { color: var(--text-secondary); }
+.resume-note    { color: var(--text-muted); border-top-color: rgba(24,22,20,0.12); }
+
+/* ======== TESTIMONIALS ======== */
+/* Testimonial cards are .glass-card (dark panel) — light text */
+.testimonial-card        { color: rgba(255,255,255,0.85); }
+.testimonial-quote-mark  { color: rgba(255,255,255,0.10); }
+.testimonial-text        { color: rgba(255,255,255,0.62); }
+.testimonial-author      { color: rgba(255,255,255,0.95); }
+.testimonial-role        { color: rgba(255,255,255,0.46); }
+.testimonial-stars       { color: var(--warning); }
+
+/* ======== CONTACT ======== */
+/*
+  Contact info and form sit directly on the light page — dark ink.
+  Icons get a subtle dark border to show on light bg.
+*/
+.contact-icon  {
+  background: rgba(24,22,20,0.06);
+  border-color: rgba(24,22,20,0.14);
+  color: var(--text-primary);
+}
+.contact-label { color: var(--text-muted); }
+.contact-value { color: var(--text-primary); }
+.contact-value a:hover { color: #000; }
+.form-group label { color: var(--text-muted); }
+.form-group input,
+.form-group textarea {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(24,22,20,0.14);
+  color: var(--text-primary);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--text-muted); }
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: rgba(24,22,20,0.36);
+  box-shadow: 0 0 0 3px rgba(24,22,20,0.06);
+  background: #fff;
+}
+.form-note { color: var(--text-muted); }
+
+/* ======== FOOTER ======== */
+/* Footer is dark matte — light text */
+.site-footer {
+  border-top-color: rgba(255,255,255,0.08);
+  background: #1A1816;
+}
+.footer-name { color: rgba(255,255,255,0.92); }
+.footer-role { color: rgba(255,255,255,0.46); }
+.footer-links a       { color: rgba(255,255,255,0.46); }
+.footer-links a:hover { color: rgba(255,255,255,0.90); }
+.footer-social a {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.50);
+}
+.footer-social a:hover {
+  color: rgba(255,255,255,0.92);
+  border-color: rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.12);
+}
+.footer-copy { color: rgba(255,255,255,0.34); border-top-color: rgba(255,255,255,0.07); }
+
+/* ======== SCROLL TOP ======== */
+.scroll-top {
+  background: #1C1A18;
+  border-color: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.82);
+  box-shadow: var(--card-shadow);
+}
+.scroll-top:hover { background: #252220; }
+
+/* ======== SCROLL PROGRESS INDICATOR ======== */
+/* Sits on light page, right edge — use dark ink colours */
+.scroll-progress-track { background: rgba(24,22,20,0.12); }
+.scroll-progress-bar   { background: #181614; box-shadow: 0 0 8px rgba(24,22,20,0.28); }
+.scroll-dot            { background: rgba(24,22,20,0.18); }
+.scroll-dot.active     { background: #181614; box-shadow: 0 0 8px rgba(24,22,20,0.42); }
+
+/* ======== SECTION BACKGROUNDS ======== */
+/*
+  All sections transparent so the fixed corner blobs are visible.
+  Sections that hold dark .glass-card children look fine because
+  the cards themselves supply the contrast, not the section bg.
+*/
+#hero, #about, #services, #skills,
+#portfolio, #certifications, #why-me,
+#resume, #testimonials, #contact {
+  background: transparent;
+}
+
+/* ======== ACCESSIBILITY ======== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .stagger-child, .skill-bar-fill,
+  .premium-bg::before, .premium-bg::after,
+  .blob-tr, .blob-bl {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: blur(100px) !important;
+    animation: none !important;
+  }
+}
