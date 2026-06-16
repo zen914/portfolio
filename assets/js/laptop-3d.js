@@ -113,9 +113,10 @@
     camera.position.set(1.5, 1.2, 3);
     camera.lookAt(0, 0.3, 0);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.matchMedia('(min-resolution: 2dppx)').matches;
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isLowEnd });
     renderer.setSize(container.offsetWidth, container.offsetHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isLowEnd ? 1 : Math.min(window.devicePixelRatio, 1.5));
 
     // r128 uses outputEncoding
     if (THREE.sRGBEncoding !== undefined) {
@@ -142,6 +143,7 @@
     let lidPivot = null;
     let excelGroup = null;
     let gsheetGroup = null;
+    let laptopMaterials = [];
 
     const startTime = performance.now();
     let lastTime = performance.now();
@@ -177,8 +179,24 @@
       scrollTarget = Math.min(window.scrollY / maxScroll, 1);
     }
 
-    window.addEventListener('scroll', updateScrollTarget, { passive: true });
+    let animationPaused = false;
+    function checkResume() {
+      if (animationPaused) {
+        animationPaused = false;
+        requestAnimationFrame(animate);
+      }
+    }
+    window.addEventListener('scroll', () => {
+      updateScrollTarget();
+      checkResume();
+    }, { passive: true });
     updateScrollTarget();
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        checkResume();
+      }
+    });
 
     /* Procedural laptop fallback removed — no fallback when GLB missing */
 
@@ -252,6 +270,11 @@
           if (child.isMesh) {
             child.material.metalness = 0.6;
             child.material.roughness = 0.4;
+            if (Array.isArray(child.material)) {
+              child.material.forEach(m => laptopMaterials.push(m));
+            } else {
+              laptopMaterials.push(child.material);
+            }
           }
           const n = child.name.toLowerCase();
           if (n.includes('lid') || n.includes('screen') || n.includes('top')) {
@@ -296,13 +319,11 @@
 
     /* ------- Animation loop ------- */
     function animate() {
-      requestAnimationFrame(animate);
+      if (document.hidden || animationPaused) return;
 
       const now = performance.now();
       const delta = Math.min((now - lastTime) / 1000, 0.033);
       lastTime = now;
-
-      updateScrollTarget();
 
       // Faster scroll response sync
       scrollCurrent += (scrollTarget - scrollCurrent) * 0.1;
@@ -366,11 +387,10 @@
         laptopGroup.rotation.x = cursorPitch + outro * -0.16;
         laptopGroup.rotation.z = outro * -0.14;
 
-        laptopGroup.traverse((child) => {
-          if (child.isMesh && child.material) {
-            child.material.transparent = true;
-            child.material.opacity = 1 - outro;
-          }
+        const opacity = 1 - outro;
+        laptopMaterials.forEach((material) => {
+          material.transparent = opacity < 1;
+          material.opacity = opacity;
         });
 
         if (lidPivot) {
@@ -469,19 +489,40 @@
       }
 
       renderer.render(scene, camera);
+
+      // Check if we should pause to save battery on low-end laptops
+      const isLaptopVisible = scrollCurrent < 0.075;
+      const isExcelVisible = excelGroup && excelGroup.visible;
+      const isGSheetVisible = gsheetGroup && gsheetGroup.visible;
+      const sceneVisible = isLaptopVisible || isExcelVisible || isGSheetVisible;
+
+      const isTransitioning = Math.abs(scrollTarget - scrollCurrent) > 0.001 ||
+                              Math.abs(targetEnter - enterProgress) > 0.001 ||
+                              Math.abs(targetExit - exitProgress) > 0.001 ||
+                              (laptopGroup && laptopIntroTime < 2.5 && scrollCurrent < 0.005);
+
+      if (!sceneVisible && !isTransitioning) {
+        animationPaused = true;
+      } else {
+        requestAnimationFrame(animate);
+      }
     }
     animate();
 
     /* ------- Resize handler ------- */
+    let resizeTimer;
     window.addEventListener('resize', () => {
-      if (window.innerWidth <= 768) {
-        renderer.domElement.style.display = 'none';
-        return;
-      }
-      renderer.domElement.style.display = '';
-      camera.aspect = container.offsetWidth / container.offsetHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.offsetWidth, container.offsetHeight);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth <= 768) {
+          renderer.domElement.style.display = 'none';
+          return;
+        }
+        renderer.domElement.style.display = '';
+        camera.aspect = container.offsetWidth / container.offsetHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+      }, 150);
     });
   }
 

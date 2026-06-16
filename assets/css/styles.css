@@ -3,7 +3,6 @@
    ============================================ */
 
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ---- Design Tokens ---- */
 :root {
@@ -147,8 +146,8 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 /* ---- Glass Card ---- */
 .glass-card {
   background: var(--surface-glass);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--card-shadow);
@@ -158,8 +157,8 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 .navbar {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
   background: rgba(var(--bg-deepest-rgb), 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-soft);
   transition: transform 0.35s ease;
 }
@@ -378,15 +377,13 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   padding: 36px 28px;
   --tilt-x: 0deg;
   --tilt-y: 0deg;
-  transform-style: preserve-3d;
   transform-origin: center;
-  backface-visibility: hidden;
-  will-change: transform;
   transition:
     transform 0.45s cubic-bezier(0.2, 0.95, 0.28, 1.16),
     border-color 0.3s ease,
     box-shadow 0.3s ease;
 }
+.service-card:hover, .why-card:hover { will-change: transform; }
 .service-card:hover {
   border-color: rgba(var(--color-white-rgb), 0.15);
 }
@@ -493,7 +490,6 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   justify-content: center;
   height: 100%;
   width: 100%;
-  will-change: transform;
 }
 .portfolio-horizontal-container {
   width: 100%;
@@ -657,7 +653,8 @@ body.project-modal-open #laptop-canvas-container {
   position: absolute;
   inset: 0;
   background: rgba(var(--color-black-rgb), 0.82);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .project-modal-panel {
   position: relative;
@@ -723,7 +720,6 @@ body.project-modal-open #laptop-canvas-container {
   color: var(--text-primary);
   background: rgba(var(--bg-deepest-rgb), 0.72);
   border: 1px solid var(--border);
-  backdrop-filter: blur(10px);
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 .project-modal-close {
@@ -810,10 +806,7 @@ body.project-modal-open #laptop-canvas-container {
   padding: 32px 24px;
   --tilt-x: 0deg;
   --tilt-y: 0deg;
-  transform-style: preserve-3d;
   transform-origin: center;
-  backface-visibility: hidden;
-  will-change: transform;
   transition:
     transform 0.45s cubic-bezier(0.2, 0.95, 0.28, 1.16),
     border-color 0.3s ease,
@@ -952,7 +945,7 @@ body.project-modal-open #laptop-canvas-container {
   color: var(--text-primary); font-size: 1.2rem;
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none; transition: all 0.35s;
-  z-index: 900; backdrop-filter: blur(8px);
+  z-index: 900;
 }
 .scroll-top.visible { opacity: 1; pointer-events: auto; }
 .scroll-top:hover { background: var(--surface-strong); }
@@ -995,7 +988,6 @@ body.project-modal-open #laptop-canvas-container {
   mask-image: linear-gradient(to top, black 0%, black 55%, transparent 92%);
   -webkit-mask-image: linear-gradient(to top, black 0%, black 55%, transparent 92%);
   opacity: 0.72;
-  filter: drop-shadow(0 22px 42px rgba(var(--color-black-rgb), 0.55));
 }
 
 .perspective-grid::after {
@@ -1072,17 +1064,15 @@ body.project-modal-open #laptop-canvas-container {
   transform: translateX(0);
 }
 
-/* Main Headings: rise up with blur removal */
+/* Main Headings: rise up */
 .section-heading.reveal {
   opacity: 0;
-  filter: blur(6px);
   transform: translateY(24px);
-  transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1), transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), filter 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1), transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .section-heading.reveal.visible {
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0);
 }
 
 /* Text blocks: fade/slide upward */
@@ -1135,8 +1125,6 @@ body.project-modal-open #laptop-canvas-container {
 /* Project cards: slight 3D tilt/scale entrance */
 .project-card.stagger-child {
   transform: scale(0.9) rotateY(-8deg) translateY(12px);
-  transform-style: preserve-3d;
-  perspective: 1000px;
 }
 
 /* Skill/tool cards: gently rise and rotate slightly */

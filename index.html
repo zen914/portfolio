@@ -10,7 +10,14 @@
   <!-- <link rel="stylesheet" href="assets/css/styles-light.css" >  -->
   <link rel="stylesheet" href="assets/css/animations.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body>
 
@@ -84,7 +91,7 @@
     <div class="about-grid">
       <div class="profile-card glass-card reveal">
         <div class="profile-img-wrap">
-          <img src="assets/images/profile.png" alt="Profile photo of Efren Mangurali" onerror="this.style.background='var(--bg-mid)';this.alt='Photo placeholder';">
+          <img src="assets/images/profile.png" alt="Profile photo of Efren Mangurali" loading="lazy" onerror="this.style.background='var(--bg-mid)';this.alt='Photo placeholder';">
         </div>
         <h3 class="profile-name">Efren Mangurali</h3>
         <span class="availability-badge"><span class="green-dot"></span> Open to Remote Work</span>
@@ -155,31 +162,31 @@
       <h3>Tools</h3>
       <div class="tools-grid stagger-parent">
         <div class="tool-card stagger-child">
-          <img src="assets/images/app icon/excel.png" alt="Microsoft Excel" onerror="this.style.display='none'">
+          <img src="assets/images/app icon/excel.png" alt="Microsoft Excel" loading="lazy" onerror="this.style.display='none'">
           <span>Microsoft Excel</span>
         </div>
         <div class="tool-card stagger-child">
-          <img src="assets/images/app icon/google-sheets.png" alt="Google Sheets" onerror="this.style.display='none'">
+          <img src="assets/images/app icon/google-sheets.png" alt="Google Sheets" loading="lazy" onerror="this.style.display='none'">
           <span>Google Sheets</span>
         </div>
         <div class="tool-card stagger-child">
-          <img src="assets/images/app icon/word.png" alt="Microsoft Word" onerror="this.style.display='none'">
+          <img src="assets/images/app icon/word.png" alt="Microsoft Word" loading="lazy" onerror="this.style.display='none'">
           <span>Microsoft Word</span>
         </div>
         <div class="tool-card stagger-child">
-          <img src="assets/images/app icon/google-docs.png" alt="Google Docs" onerror="this.style.display='none'">
+          <img src="assets/images/app icon/google-docs.png" alt="Google Docs" loading="lazy" onerror="this.style.display='none'">
           <span>Google Docs</span>
         </div>
         <div class="tool-card stagger-child">
-          <img src="assets/images/app icon/powerpoint.png" alt="Microsoft PowerPoint" onerror="this.style.display='none'">
+          <img src="assets/images/app icon/powerpoint.png" alt="Microsoft PowerPoint" loading="lazy" onerror="this.style.display='none'">
           <span>Microsoft PowerPoint</span>
         </div>
         <div class="tool-card stagger-child">
-          <img src="assets/images/app icon/google-drive.png" alt="Google Drive" onerror="this.style.display='none'">
+          <img src="assets/images/app icon/google-drive.png" alt="Google Drive" loading="lazy" onerror="this.style.display='none'">
           <span>Google Drive</span>
         </div>
         <div class="tool-card stagger-child">
-          <img src="assets/images/app icon/google-forms.png" alt="Google Forms" onerror="this.style.display='none'">
+          <img src="assets/images/app icon/google-forms.png" alt="Google Forms" loading="lazy" onerror="this.style.display='none'">
           <span>Google Forms</span>
         </div>
       </div>
@@ -197,7 +204,7 @@
       <div class="portfolio-horizontal-container">
         <div class="portfolio-horizontal-track stagger-parent">
           <div class="project-card stagger-child" data-project="project_1" data-description="Built an Excel dashboard that summarizes sales performance using Pivot Tables, charts, and conditional formatting, making it easier to monitor trends and identify top-performing products.">
-            <img class="project-cover" src="assets/images/projects/project_1/cover.png" alt="Sales Performance Dashboard cover">
+            <img class="project-cover" src="assets/images/projects/project_1/cover.png" loading="lazy" alt="Sales Performance Dashboard cover">
             <div class="project-overlay"></div>
             <div class="project-body">
               <p class="project-tag">Excel Dashboard</p>
@@ -207,7 +214,7 @@
             </div>
           </div>
           <div class="project-card stagger-child" data-project="project_2" data-description="Created an inventory tracking system with automated low-stock alerts and product summaries to improve inventory visibility and organization.">
-            <img class="project-cover" src="assets/images/projects/project_2/cover.png" alt="Inventory Tracking Sheet cover">
+            <img class="project-cover" src="assets/images/projects/project_2/cover.png" loading="lazy" alt="Inventory Tracking Sheet cover">
             <div class="project-overlay"></div>
             <div class="project-body">
               <p class="project-tag">Google Sheets</p>
@@ -217,7 +224,7 @@
             </div>
           </div>
           <div class="project-card stagger-child" data-project="project_3" data-description="Developed a customer sales report that transforms raw transaction data into organized summaries and visual reports for easier business review.">
-            <img class="project-cover" src="assets/images/projects/project_3/cover.png" alt="Customer Sales Report cover">
+            <img class="project-cover" src="assets/images/projects/project_3/cover.png" loading="lazy" alt="Customer Sales Report cover">
             <div class="project-overlay"></div>
             <div class="project-body">
               <p class="project-tag">Reporting</p>

@@ -192,15 +192,27 @@ function initNavbar() {
   const mobileNav = document.querySelector('.mobile-nav');
   let lastScroll = 0;
   const threshold = 80;
+  let navTicking = false;
 
   window.addEventListener('scroll', () => {
-    const current = window.scrollY;
-    if (current > threshold) {
-      navbar.classList.toggle('hidden', current > lastScroll);
-    } else {
-      navbar.classList.remove('hidden');
+    if (!navTicking) {
+      requestAnimationFrame(() => {
+        const current = window.scrollY;
+        if (current > threshold) {
+          const shouldHide = current > lastScroll;
+          if (navbar.classList.contains('hidden') !== shouldHide) {
+            navbar.classList.toggle('hidden', shouldHide);
+          }
+        } else {
+          if (navbar.classList.contains('hidden')) {
+            navbar.classList.remove('hidden');
+          }
+        }
+        lastScroll = current;
+        navTicking = false;
+      });
+      navTicking = true;
     }
-    lastScroll = current;
   }, { passive: true });
 
   if (hamburger && mobileNav) {
@@ -269,25 +281,37 @@ function initScrollIndicator() {
   const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav a');
   const sections = document.querySelectorAll('section[id]');
 
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  if (progressBar) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+          if (maxScroll > 0) {
+            progressBar.style.height = `${(scrollY / maxScroll) * 100}%`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
 
-    if (progressBar && maxScroll > 0) {
-      progressBar.style.height = `${(scrollY / maxScroll) * 100}%`;
-    }
-
-    sections.forEach((section, i) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+  const activeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const sectionId = entry.target.id;
+        const index = Array.from(sections).indexOf(entry.target);
         dots.forEach(d => d.classList.remove('active'));
-        if (dots[i]) dots[i].classList.add('active');
+        if (dots[index]) dots[index].classList.add('active');
         navLinks.forEach(link => {
-          link.classList.toggle('active', link.getAttribute('href') === '#' + section.id);
+          link.classList.toggle('active', link.getAttribute('href') === '#' + sectionId);
         });
       }
     });
-  }, { passive: true });
+  }, { rootMargin: '-50% 0px -50% 0px' });
+  sections.forEach(s => activeObserver.observe(s));
 }
 
 /* ---- Scroll Reveal (IntersectionObserver) ---- */
@@ -645,8 +669,18 @@ function initScrollTop() {
   const btn = document.querySelector('.scroll-top');
   if (!btn) return;
 
+  let topTicking = false;
   window.addEventListener('scroll', () => {
-    btn.classList.toggle('visible', window.scrollY > 600);
+    if (!topTicking) {
+      requestAnimationFrame(() => {
+        const isVisible = window.scrollY > 600;
+        if (btn.classList.contains('visible') !== isVisible) {
+          btn.classList.toggle('visible', isVisible);
+        }
+        topTicking = false;
+      });
+      topTicking = true;
+    }
   }, { passive: true });
 
   btn.addEventListener('click', () => {
@@ -701,15 +735,20 @@ function initHorizontalScroll() {
   }
 
   // Update on resize
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    if (window.innerWidth <= 768) {
-      track.style.transform = 'none';
-      portfolio.style.height = '';
-      stickyContent.style.transform = 'none';
-    } else {
-      syncPortfolioHeight();
-      update();
-    }
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.innerWidth <= 768) {
+        track.style.transform = 'none';
+        portfolio.style.height = '';
+        stickyContent.style.transform = 'none';
+        inView = false;
+      } else {
+        syncPortfolioHeight();
+        update();
+      }
+    }, 150);
   });
 
   window.addEventListener('load', syncPortfolioHeight);
@@ -719,14 +758,27 @@ function initHorizontalScroll() {
   });
   syncPortfolioHeight();
 
+  let loopRunning = false;
+  let inView = false;
+
   // Run update inside animation loop for buttery smooth tracking
   function loop() {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 768 && inView) {
       update();
       requestAnimationFrame(loop);
+    } else {
+      loopRunning = false;
     }
   }
-  loop();
+
+  const portfolioObserver = new IntersectionObserver((entries) => {
+    inView = entries[0].isIntersecting;
+    if (inView && !loopRunning) {
+      loopRunning = true;
+      loop();
+    }
+  }, { rootMargin: '100px 0px 100px 0px' });
+  portfolioObserver.observe(portfolio);
 }
 
 /* ---- Project Scroll Dots ---- */
@@ -774,7 +826,16 @@ function initProjectScrollDots() {
     });
   }
 
-  window.addEventListener('scroll', updateActiveDot, { passive: true });
+  let dotTicking = false;
+  window.addEventListener('scroll', () => {
+    if (!dotTicking) {
+      requestAnimationFrame(() => {
+        updateActiveDot();
+        dotTicking = false;
+      });
+      dotTicking = true;
+    }
+  }, { passive: true });
   window.addEventListener('resize', () => {
     if (window.innerWidth <= 768) {
       dotsContainer.innerHTML = '';
@@ -805,10 +866,27 @@ const PAUSE_BEFORE = 500;     // breath before next word
   let state = { wordIndex: 0, charIndex: 0, isDeleting: false };
 
   function renderChars(text) {
-    el.innerHTML = text
-      .split('')
-      .map(ch => `<span>${ch === ' ' ? '&nbsp;' : ch}</span>`)
-      .join('');
+    const chars = text.split('');
+    const currentSpans = el.children;
+    
+    // Add missing spans
+    while (currentSpans.length < chars.length) {
+      const s = document.createElement('span');
+      el.appendChild(s);
+    }
+    // Remove extra spans
+    while (currentSpans.length > chars.length) {
+      el.removeChild(el.lastChild);
+    }
+    // Update contents
+    for (let i = 0; i < chars.length; i++) {
+      const char = chars[i];
+      const span = currentSpans[i];
+      const targetContent = char === ' ' ? '\u00A0' : char;
+      if (span.textContent !== targetContent) {
+        span.textContent = targetContent;
+      }
+    }
   }
 
 function triggerGlow() {
