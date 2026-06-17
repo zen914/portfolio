@@ -145,9 +145,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 /* ---- Glass Card ---- */
 .glass-card {
-  background: var(--surface-glass);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(var(--bg-surface-rgb), 0.72);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--card-shadow);
@@ -156,9 +154,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 /* ======== NAVBAR ======== */
 .navbar {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-  background: rgba(var(--bg-deepest-rgb), 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(var(--bg-deepest-rgb), 0.94);
   border-bottom: 1px solid var(--border-soft);
   transition: transform 0.35s ease;
 }
@@ -652,9 +648,7 @@ body.project-modal-open #laptop-canvas-container {
 .project-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(var(--color-black-rgb), 0.82);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(var(--color-black-rgb), 0.92);
 }
 .project-modal-panel {
   position: relative;
@@ -974,7 +968,7 @@ body.project-modal-open #laptop-canvas-container {
     rotateZ(0deg)
     translate3d(
       var(--grid-x, 0px),
-      var(--grid-y, 0px),
+      calc(var(--grid-y, 0px) + var(--grid-flow, 0px)),
       0
     );
   transform-origin: center top;
@@ -982,12 +976,11 @@ body.project-modal-open #laptop-canvas-container {
     linear-gradient(rgba(var(--bg-surface-rgb), 0.52) 0.8px, transparent 0.8px),
     linear-gradient(90deg, rgba(var(--bg-surface-rgb), 0.52) 0.8px, transparent 0.8px);
   background-size: 35px 35px;
-  background-position:
-    center var(--grid-flow, 0px),
-    center var(--grid-flow, 0px);
+  background-position: center center;
   mask-image: linear-gradient(to top, black 0%, black 55%, transparent 92%);
   -webkit-mask-image: linear-gradient(to top, black 0%, black 55%, transparent 92%);
   opacity: 0.72;
+  will-change: transform;
 }
 
 .perspective-grid::after {

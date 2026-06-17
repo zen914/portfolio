@@ -39,23 +39,18 @@ function initProjectOrder() {
   if (window.innerWidth <= 768) return;
 
   const SCROLL_SETTINGS = {
-    // Lower inputScale = each wheel move travels less distance.
-    inputScale: 0.075,
-    // Higher friction = momentum lasts longer. Keep below 1.
-    friction: 0.935,
-    // Lower maxVelocity keeps quick scroll gestures from jumping too far.
-    maxVelocity: 42,
-    // Stop once the remaining movement is tiny.
-    stopThreshold: 0.28,
-    // Lower navEase = slower, smoother section-link scrolling.
-    navEase: 0.065,
-    navStopThreshold: 1.2,
-    keyboardScale: 0.55,
+    // Lerp ease factor: lower = smoother/slower, higher = faster/tighter sync.
+    ease: 0.08,
+    // Step size multiplier for wheel input.
+    wheelStep: 1.0,
+    // Stop updating once remaining distance is tiny.
+    stopThreshold: 0.5,
+    keyboardScale: 120,
     projectScrollMultiplier: 0.48
   };
 
   let currentY = window.scrollY;
-  let velocity = 0;
+  let targetY = window.scrollY;
   let ticking = false;
   let scrollLocked = false;
 
@@ -68,6 +63,12 @@ function initProjectOrder() {
   }
 
   function projectScrollMultiplier() {
+    // If layout offsets are cached, use them to avoid calling getBoundingClientRect()
+    if (window._portfolioTop !== undefined && window._portfolioHeight !== undefined) {
+      const isInsidePortfolio = window.scrollY >= window._portfolioTop && window.scrollY <= (window._portfolioTop + window._portfolioHeight - window.innerHeight);
+      return isInsidePortfolio ? SCROLL_SETTINGS.projectScrollMultiplier : 1;
+    }
+
     const portfolio = document.getElementById('portfolio');
     if (!portfolio) return 1;
 
@@ -78,79 +79,64 @@ function initProjectOrder() {
 
   window._setMomentumScrollLocked = (locked) => {
     scrollLocked = locked;
-    velocity = 0;
     ticking = false;
-    isNavScrolling = false;
     currentY = window.scrollY;
+    targetY = window.scrollY;
   };
 
   function tick() {
-    if (scrollLocked) return;
+    if (scrollLocked) {
+      ticking = false;
+      return;
+    }
 
-    // Decay velocity by friction — this is the ONLY physics happening, no spring
-    velocity *= SCROLL_SETTINGS.friction;
-    currentY += velocity;
-    currentY = clamp(currentY, 0, maxScrollY());
-
-    window.scrollTo(0, currentY);
-
-    if (Math.abs(velocity) > SCROLL_SETTINGS.stopThreshold) {
+    const diff = targetY - currentY;
+    if (Math.abs(diff) > SCROLL_SETTINGS.stopThreshold) {
+      currentY += diff * SCROLL_SETTINGS.ease;
+      window.scrollTo(0, currentY);
       requestAnimationFrame(tick);
     } else {
-      velocity = 0;
+      currentY = targetY;
+      window.scrollTo(0, currentY);
       ticking = false;
     }
   }
 
-  // Wheel — add deltaY straight to velocity, no targetY
   window.addEventListener('wheel', (e) => {
     e.preventDefault();
     if (scrollLocked) return;
 
-    currentY = window.scrollY; // sync position before adding
-    velocity = clamp(
-      velocity + e.deltaY * SCROLL_SETTINGS.inputScale * projectScrollMultiplier(),
-      -SCROLL_SETTINGS.maxVelocity,
-      SCROLL_SETTINGS.maxVelocity
+    // Sync state if scrolled externally (e.g. hash navigations or scroll modal closes)
+    const actualY = window.scrollY;
+    if (Math.abs(actualY - currentY) > 5) {
+      currentY = actualY;
+      targetY = actualY;
+    }
+
+    targetY = clamp(
+      targetY + e.deltaY * SCROLL_SETTINGS.wheelStep * projectScrollMultiplier(),
+      0,
+      maxScrollY()
     );
+
     if (!ticking) {
       ticking = true;
       requestAnimationFrame(tick);
     }
   }, { passive: false });
 
-  let isNavScrolling = false;
-  let navScrollTarget = 0;
-
-  // Expose for nav clicks / scroll-top — smooth glide to destination
+  // Expose smooth scrollTo for nav clicks / scroll-top
   window._scrollTo = (y) => {
     if (scrollLocked) return;
 
-    navScrollTarget = clamp(y, 0, maxScrollY());
-    isNavScrolling = true;
-    velocity = 0;
+    targetY = clamp(y, 0, maxScrollY());
+    currentY = window.scrollY;
 
-    function animateScroll() {
-      if (!isNavScrolling) return;
-      const current = window.scrollY;
-      const diff = navScrollTarget - current;
-      if (Math.abs(diff) < SCROLL_SETTINGS.navStopThreshold) {
-        window.scrollTo(0, navScrollTarget);
-        currentY = navScrollTarget;
-        isNavScrolling = false;
-      } else {
-        currentY = current + diff * SCROLL_SETTINGS.navEase;
-        window.scrollTo(0, currentY);
-        requestAnimationFrame(animateScroll);
-      }
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(tick);
     }
-    animateScroll();
   };
-
-  // Cancel glide if user manually scrolls with wheel
-  window.addEventListener('wheel', () => {
-    isNavScrolling = false;
-  }, { passive: true });
 
   // Keyboard support
   window.addEventListener('keydown', (e) => {
@@ -160,8 +146,8 @@ function initProjectOrder() {
     }
 
     const map = {
-      ArrowDown: 100,
-      ArrowUp: -100,
+      ArrowDown: SCROLL_SETTINGS.keyboardScale,
+      ArrowUp: -SCROLL_SETTINGS.keyboardScale,
       PageDown: window.innerHeight * 0.85,
       PageUp: -(window.innerHeight * 0.85),
       ' ': window.innerHeight * 0.85,
@@ -171,12 +157,19 @@ function initProjectOrder() {
     const amount = map[e.key];
     if (amount !== undefined) {
       e.preventDefault();
-      currentY = window.scrollY;
-      velocity = clamp(
-        velocity + amount * SCROLL_SETTINGS.keyboardScale * projectScrollMultiplier(),
-        -SCROLL_SETTINGS.maxVelocity,
-        SCROLL_SETTINGS.maxVelocity
+      
+      const actualY = window.scrollY;
+      if (Math.abs(actualY - currentY) > 5) {
+        currentY = actualY;
+        targetY = actualY;
+      }
+
+      targetY = clamp(
+        targetY + amount * projectScrollMultiplier(),
+        0,
+        maxScrollY()
       );
+
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(tick);
@@ -387,13 +380,18 @@ function initCardTilt() {
   if (!cards.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   cards.forEach(card => {
+    let rect = null;
     let frame = null;
 
+    card.addEventListener('mouseenter', () => {
+      rect = card.getBoundingClientRect();
+    });
+
     card.addEventListener('mousemove', (e) => {
+      if (!rect) rect = card.getBoundingClientRect();
       if (frame) cancelAnimationFrame(frame);
 
       frame = requestAnimationFrame(() => {
-        const rect = card.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
         const strength = 9;
@@ -407,6 +405,7 @@ function initCardTilt() {
     card.addEventListener('mouseleave', () => {
       if (frame) cancelAnimationFrame(frame);
       frame = null;
+      rect = null;
       card.style.setProperty('--tilt-x', '0deg');
       card.style.setProperty('--tilt-y', '0deg');
     });
@@ -710,15 +709,19 @@ function initHorizontalScroll() {
     const maxTranslate = Math.max(0, track.scrollWidth - container.offsetWidth);
     const scrollDistance = Math.max(window.innerHeight * 1.35, maxTranslate * 1.35);
     portfolio.style.height = `${window.innerHeight + scrollDistance}px`;
+
+    const rect = portfolio.getBoundingClientRect();
+    window._portfolioTop = rect.top + window.scrollY;
+    window._portfolioHeight = rect.height;
   }
 
   function update() {
-    const rect = portfolio.getBoundingClientRect();
-    const top = rect.top;
-    const height = rect.height;
+    const top = window._portfolioTop !== undefined ? window._portfolioTop : (portfolio.getBoundingClientRect().top + window.scrollY);
+    const height = window._portfolioHeight !== undefined ? window._portfolioHeight : portfolio.getBoundingClientRect().height;
 
+    const currentScrollY = window.scrollY;
+    const scrolled = currentScrollY - top;
     const scrollable = height - window.innerHeight;
-    const scrolled = -top;
 
     const progress = Math.max(0, Math.min(1, scrolled / (scrollable || 1)));
 
@@ -808,17 +811,14 @@ function initProjectScrollDots() {
   const dots = dotsContainer.querySelectorAll('.project-scroll-dot');
 
   function updateActiveDot() {
-    const rect = portfolio.getBoundingClientRect();
-    const top = rect.top;
-    const height = rect.height;
+    const top = window._portfolioTop !== undefined ? window._portfolioTop : (portfolio.getBoundingClientRect().top + window.scrollY);
+    const height = window._portfolioHeight !== undefined ? window._portfolioHeight : portfolio.getBoundingClientRect().height;
 
+    const currentScrollY = window.scrollY;
+    const scrolled = currentScrollY - top;
     const scrollable = height - window.innerHeight;
-    const scrolled = -top;
     const progress = Math.max(0, Math.min(1, scrolled / (scrollable || 1)));
 
-    const maxTranslate = Math.max(0, track.scrollWidth - container.offsetWidth);
-    const cardWidth = cards[0]?.offsetWidth || 1;
-    const gapWidth = 20;
     const activeIndex = Math.round(progress * (cards.length - 1));
 
     dots.forEach((dot, index) => {

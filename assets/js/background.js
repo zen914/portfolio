@@ -76,7 +76,7 @@
 
     // Smooth scroll position catch-up
     scrollCurrent += (scrollTarget - scrollCurrent) * 0.055;
-    const gridFlow = scrollCurrent * 520;
+    const gridFlow = (scrollCurrent * 520) % 35;
 
     // Slow lerp for cursor parallax
     currentX += (targetX - currentX) * 0.045;
