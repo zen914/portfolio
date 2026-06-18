@@ -113,24 +113,6 @@
     camera.position.set(1.5, 1.2, 3);
     camera.lookAt(0, 0.3, 0);
 
-    // Utility: fit camera to an object so the model appears consistent across viewports
-    function fitCameraToObject(camera, object, offset = 1.15) {
-      if (!object) return;
-      const box = new THREE.Box3().setFromObject(object);
-      const sphere = box.getBoundingSphere(new THREE.Sphere());
-      if (!sphere || sphere.radius === 0) return;
-
-      const fov = camera.fov * (Math.PI / 180);
-      const distance = Math.abs(sphere.radius / Math.sin(fov / 2)) * offset;
-
-      // Center of the object
-      const center = box.getCenter(new THREE.Vector3());
-      // Direction from center to current camera position
-      const dir = camera.position.clone().sub(center).normalize();
-      camera.position.copy(dir.multiplyScalar(distance).add(center));
-      camera.lookAt(center);
-    }
-
     const isLowEnd = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || !window.matchMedia('(min-resolution: 2dppx)').matches;
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isLowEnd });
     renderer.setSize(container.offsetWidth, container.offsetHeight);
@@ -300,11 +282,6 @@
           }
         });
         scene.add(laptopGroup);
-
-        // Ensure camera frames the laptop consistently across viewports
-        setTimeout(() => {
-          try { fitCameraToObject(camera, laptopGroup, 1.15); } catch (err) { console.warn('fitCameraToObject error:', err); }
-        }, 50);
       }
     );
 
@@ -545,11 +522,6 @@
         camera.aspect = container.offsetWidth / container.offsetHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(container.offsetWidth, container.offsetHeight);
-
-        // Re-fit camera to laptop model when layout changes to avoid zoom differences
-        if (laptopGroup) {
-          try { fitCameraToObject(camera, laptopGroup, 1.15); } catch (e) { console.warn('fitCameraToObject resize error', e); }
-        }
       }, 150);
     });
   }
