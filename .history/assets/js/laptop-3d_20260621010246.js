@@ -353,7 +353,7 @@
         laptopIntroTime = 0;
       }
 
-      const idleTime = Math.max(laptopIntroTime - 0.6, 0);
+      const idleTime = Math.max(laptopIntroTime - 1.6, 0);
 
       // Current scroll value
       const scrollY = window.scrollY;

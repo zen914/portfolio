@@ -348,12 +348,12 @@
 
       // Update laptop intro timer based on scroll location
       if (scrollCurrent < 0.005) {
-        laptopIntroTime = Math.min(laptopIntroTime + delta, 0.5);
+        laptopIntroTime = Math.min(laptopIntroTime + delta, 0.005);
       } else if (scrollCurrent > 0.075) {
         laptopIntroTime = 0;
       }
 
-      const idleTime = Math.max(laptopIntroTime - 0.6, 0);
+      const idleTime = Math.max(laptopIntroTime - 1.6, 0);
 
       // Current scroll value
       const scrollY = window.scrollY;
